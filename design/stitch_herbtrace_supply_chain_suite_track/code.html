@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(26, 46, 28, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 228, 121, 0.1);
+        }
+        .hex-grid {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l25.98 15v30L30 60 4.02 45V15z' fill-opacity='0.03' fill='%2300e479' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#ee9800",
+                        "outline": "#849585",
+                        "surface-dim": "#0c160e",
+                        "inverse-surface": "#dae6d8",
+                        "surface-bright": "#323c32",
+                        "on-primary": "#003919",
+                        "on-tertiary": "#3d2f00",
+                        "on-background": "#dae6d8",
+                        "tertiary-container": "#ffdb79",
+                        "surface-container-low": "#141e16",
+                        "on-tertiary-fixed-variant": "#584400",
+                        "background": "#0c160e",
+                        "surface-variant": "#2d372e",
+                        "primary-fixed": "#60ff99",
+                        "on-tertiary-container": "#795f01",
+                        "on-surface-variant": "#b9cbb9",
+                        "surface-container-lowest": "#071009",
+                        "outline-variant": "#3b4b3d",
+                        "on-secondary-container": "#5b3800",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed-dim": "#e5c364",
+                        "tertiary-fixed": "#ffe08d",
+                        "primary-fixed-dim": "#00e479",
+                        "on-tertiary-fixed": "#241a00",
+                        "secondary-fixed": "#ffddb8",
+                        "on-surface": "#dae6d8",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "primary-container": "#00ff88",
+                        "on-error-container": "#ffdad6",
+                        "inverse-primary": "#006d37",
+                        "on-primary-fixed": "#00210c",
+                        "surface-tint": "#00e479",
+                        "on-error": "#690005",
+                        "on-secondary": "#472a00",
+                        "surface": "#0c160e",
+                        "on-secondary-fixed": "#2a1700",
+                        "on-primary-fixed-variant": "#005228",
+                        "error-container": "#93000a",
+                        "surface-container": "#18221a",
+                        "on-primary-container": "#007139",
+                        "primary": "#f1ffef",
+                        "surface-container-highest": "#2d372e",
+                        "secondary": "#ffb95f",
+                        "tertiary": "#fffaf7",
+                        "on-secondary-fixed-variant": "#653e00",
+                        "inverse-on-surface": "#29332a",
+                        "surface-container-high": "#222c24"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "sm": "16px",
+                        "lg": "40px",
+                        "md": "24px",
+                        "xs": "8px",
+                        "base": "4px",
+                        "margin-mobile": "16px",
+                        "xl": "64px",
+                        "margin-desktop": "48px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Sora"],
+                        "body-sm": ["Inter"],
+                        "display-lg": ["Sora"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Sora"],
+                        "technical-md": ["JetBrains Mono"],
+                        "headline-lg": ["Sora"],
+                        "technical-sm": ["JetBrains Mono"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "technical-md": ["14px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "technical-sm": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-gutter py-sm max-w-[1440px] mx-auto bg-surface/60 backdrop-blur-md border-b border-white/10">
+<div class="font-headline-lg text-headline-lg text-primary-container font-bold tracking-tighter">HerbTrace</div>
+<div class="hidden md:flex items-center gap-lg">
+<a class="text-primary-container border-b-2 border-primary-container pb-1 font-body-md" href="#">Dashboard</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors font-body-md" href="#">Traceability</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors font-body-md" href="#">Compliance</a>
+</div>
+<div class="flex items-center gap-md">
+<button class="bg-primary-container text-on-primary-container px-md py-xs rounded-lg font-technical-md hover:brightness-110 active:scale-95 transition-all">Track Batch</button>
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center overflow-hidden border border-outline-variant">
+<img alt="User profile" data-alt="A professional headshot of a senior system administrator in a high-tech environment. The lighting is dramatic with cool blue and deep green tones, reflecting a bioluminescent laboratory aesthetic. The subject is wearing a crisp, modern dark tactical uniform, conveying authority and precision. The background is softly blurred, showing hints of glowing server racks and digital interfaces." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAP4a0hydZVzeTNm1w61mFJ7BG7yKMEs5wNlcl4U79FBequiHGrH6Paak3ACKOZu_zpGG90d9WwlojA7sbMU6DF-H0aQEhanLu7OOZ4pXO54XOa9ijuCYGqgK_Hl3td-MgrXpIFteKq9DZTes2YQPFo278wg20wELe-WK4qOE9pmKG7MDjn3Ht4P3_-KUozcNouHYQ0qHqfVkEcY-5FlrhOnJYOjvUCqGi1Vr9HrBt6ncSH-gkJnrwkBMB1KlnitopiTkKxZDuPLfTZ"/>
+</div>
+</div>
+</nav>
+<!-- SideNavBar (Desktop) -->
+<aside class="hidden lg:flex flex-col h-screen fixed left-0 top-0 pt-xl pb-md bg-surface-container-low/60 backdrop-blur-xl border-r border-primary/10 w-64 z-40">
+<div class="px-md mb-xl">
+<div class="font-headline-md text-headline-md text-primary-container font-black">HerbTrace</div>
+<div class="font-technical-sm text-technical-sm text-outline">Verified Protocol</div>
+</div>
+<nav class="flex-1 space-y-base">
+<div class="bg-primary-container/10 text-primary-container border-l-4 border-primary-container px-4 py-3 flex items-center gap-md transition-all cursor-pointer">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-technical-md text-technical-md">Overview</span>
+</div>
+<div class="text-on-surface-variant hover:bg-surface-variant/30 px-4 py-3 flex items-center gap-md transition-all cursor-pointer">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-technical-md text-technical-md">Batches</span>
+</div>
+<div class="text-on-surface-variant hover:bg-surface-variant/30 px-4 py-3 flex items-center gap-md transition-all cursor-pointer">
+<span class="material-symbols-outlined" data-weight="fill">verified</span>
+<span class="font-technical-md text-technical-md">Quality</span>
+</div>
+<div class="text-on-surface-variant hover:bg-surface-variant/30 px-4 py-3 flex items-center gap-md transition-all cursor-pointer">
+<span class="material-symbols-outlined">security</span>
+<span class="font-technical-md text-technical-md">Risk Analysis</span>
+</div>
+<div class="text-on-surface-variant hover:bg-surface-variant/30 px-4 py-3 flex items-center gap-md transition-all cursor-pointer">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-technical-md text-technical-md">Settings</span>
+</div>
+</nav>
+<div class="px-md mt-auto pt-md border-t border-outline-variant/10">
+<div class="text-on-surface-variant hover:bg-surface-variant/30 px-4 py-3 flex items-center gap-md transition-all cursor-pointer">
+<span class="material-symbols-outlined">help</span>
+<span class="font-technical-md text-technical-md">Help</span>
+</div>
+<div class="text-on-surface-variant hover:bg-surface-variant/30 px-4 py-3 flex items-center gap-md transition-all cursor-pointer">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-technical-md text-technical-md">Sign Out</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:ml-64 pt-xl min-h-screen bg-surface-dim hex-grid">
+<div class="max-w-[1440px] mx-auto p-gutter grid grid-cols-12 gap-gutter">
+<!-- Center Focus Area -->
+<div class="col-span-12 lg:col-span-8 flex flex-col gap-gutter">
+<!-- QR Scanner Box -->
+<section class="glass-panel rounded-xl p-lg flex flex-col items-center justify-center relative overflow-hidden min-h-[400px]">
+<div class="absolute inset-0 bg-primary-container/5 pointer-events-none"></div>
+<div class="relative z-10 w-full max-w-sm">
+<div class="aspect-square border-2 border-dashed border-primary-container/40 rounded-xl flex items-center justify-center p-md group cursor-pointer hover:border-primary-container transition-all">
+<div class="w-full h-full relative">
+<!-- Corner Brackets -->
+<div class="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-primary-container"></div>
+<div class="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-primary-container"></div>
+<div class="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-primary-container"></div>
+<div class="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-primary-container"></div>
+<!-- Scanner Animation Placeholder -->
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container text-[80px]">qr_code_scanner</span>
+</div>
+<div class="absolute top-0 left-0 w-full h-[2px] bg-primary-container/80 shadow-[0_0_15px_rgba(0,228,121,0.8)]"></div>
+</div>
+</div>
+<p class="text-center mt-md font-technical-md text-on-surface-variant">ALIGN QR CODE WITHIN FRAME TO SCAN BATCH</p>
+</div>
+</section>
+<!-- Batch Details Card -->
+<section class="glass-panel rounded-xl overflow-hidden border border-primary-container/20">
+<div class="bg-primary-container/10 px-md py-sm flex justify-between items-center border-b border-primary-container/20">
+<h3 class="font-headline-md text-headline-md text-primary-container">Batch #HT-8829-X</h3>
+<span class="bg-primary-container text-on-primary-container text-[10px] px-xs py-[2px] rounded-full font-technical-md">VERIFIED</span>
+</div>
+<div class="p-md grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="space-y-sm">
+<div>
+<label class="font-technical-sm text-outline block uppercase">Botanical Origin</label>
+<div class="font-body-md text-on-surface">Salvia rosmarinus (Organic Spanish)</div>
+</div>
+<div>
+<label class="font-technical-sm text-outline block uppercase">Extraction Method</label>
+<div class="font-body-md text-on-surface">CO2 Supercritical Extraction</div>
+</div>
+<div>
+<label class="font-technical-sm text-outline block uppercase">Blockchain Hash</label>
+<div class="font-technical-sm text-primary-container truncate cursor-pointer hover:underline">0x8829ef210c4415b392a...</div>
+</div>
+</div>
+<div class="flex flex-col justify-between">
+<div class="glass-panel rounded-lg p-sm bg-surface-variant/40">
+<label class="font-technical-sm text-primary-container block mb-xs">QUALITY RATING</label>
+<div class="flex gap-xs">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-outline">star</span>
+</div>
+<p class="text-[11px] text-outline-variant mt-xs">Rate batch potency for laboratory records</p>
+</div>
+<button class="mt-md w-full bg-surface-container-highest text-on-surface border border-outline-variant px-md py-sm rounded-lg font-technical-md hover:bg-surface-variant transition-all">Submit Protocol Data</button>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Side: Recent Activity -->
+<div class="col-span-12 lg:col-span-4">
+<section class="glass-panel rounded-xl h-full flex flex-col">
+<div class="p-md border-b border-white/5">
+<h3 class="font-headline-md text-headline-md text-on-surface">Recent Activity</h3>
+<p class="font-technical-sm text-outline">Real-time factory protocol logs</p>
+</div>
+<div class="flex-1 overflow-y-auto p-md space-y-md">
+<!-- Activity Item 1 -->
+<div class="flex gap-sm">
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary-container text-sm">inventory_2</span>
+</div>
+<div>
+<div class="font-body-md text-on-surface">Batch <span class="font-technical-md">#HT-8827</span> Released</div>
+<div class="font-technical-sm text-outline-variant">2 mins ago • Station A</div>
+</div>
+</div>
+<!-- Activity Item 2 -->
+<div class="flex gap-sm">
+<div class="w-10 h-10 rounded-full bg-secondary-container/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary-container text-sm">warning</span>
+</div>
+<div>
+<div class="font-body-md text-on-surface">Temp Anomaly Detected</div>
+<div class="font-technical-sm text-outline-variant">14 mins ago • Cold Storage 4</div>
+</div>
+</div>
+<!-- Activity Item 3 -->
+<div class="flex gap-sm">
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary-container text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div>
+<div class="font-body-md text-on-surface">Quality Audit Passed</div>
+<div class="font-technical-sm text-outline-variant">45 mins ago • Lab Section</div>
+</div>
+</div>
+<!-- Activity Item 4 -->
+<div class="flex gap-sm">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-outline text-sm">local_shipping</span>
+</div>
+<div>
+<div class="font-body-md text-on-surface">Dispatch HT-8820 In-Transit</div>
+<div class="font-technical-sm text-outline-variant">1 hour ago • Logistics Hub</div>
+</div>
+</div>
+<!-- Activity Item 5 -->
+<div class="flex gap-sm">
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary-container text-sm">qr_code</span>
+</div>
+<div>
+<div class="font-body-md text-on-surface">New QR ID Generated</div>
+<div class="font-technical-sm text-outline-variant">3 hours ago • Admin Control</div>
+</div>
+</div>
+</div>
+<div class="p-md bg-surface-container-lowest border-t border-white/5">
+<button class="w-full text-center font-technical-sm text-primary-container hover:underline cursor-pointer">VIEW ALL SYSTEM LOGS</button>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="lg:ml-64 w-full py-xl px-gutter flex flex-col md:flex-row justify-between items-center gap-md bg-surface-container-lowest border-t border-outline-variant/20">
+<div class="flex flex-col items-center md:items-start gap-xs">
+<div class="font-headline-md text-headline-md text-on-surface">HerbTrace</div>
+<p class="font-technical-sm text-technical-sm text-outline">© 2024 HerbTrace Protocol. Cryptographically Secured.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-md">
+<a class="font-technical-sm text-technical-sm text-outline hover:text-primary-container transition-colors" href="#">Privacy Policy</a>
+<a class="font-technical-sm text-technical-sm text-outline hover:text-primary-container transition-colors" href="#">Terms of Service</a>
+<a class="font-technical-sm text-technical-sm text-outline hover:text-primary-container transition-colors" href="#">API Documentation</a>
+<a class="font-technical-sm text-technical-sm text-outline hover:text-primary-container transition-colors" href="#">Node Status</a>
+</div>
+</footer>
+</body></html>

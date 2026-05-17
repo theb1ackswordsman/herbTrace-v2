@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HerbTrace | Cryptographically Verified Supply Chain</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-container": "#ee9800",
+                    "outline": "#849585",
+                    "surface-dim": "#0c160e",
+                    "inverse-surface": "#dae6d8",
+                    "surface-bright": "#323c32",
+                    "on-primary": "#003919",
+                    "on-tertiary": "#3d2f00",
+                    "on-background": "#dae6d8",
+                    "tertiary-container": "#ffdb79",
+                    "surface-container-low": "#141e16",
+                    "on-tertiary-fixed-variant": "#584400",
+                    "background": "#0c160e",
+                    "surface-variant": "#2d372e",
+                    "primary-fixed": "#60ff99",
+                    "on-tertiary-container": "#795f01",
+                    "on-surface-variant": "#b9cbb9",
+                    "surface-container-lowest": "#071009",
+                    "outline-variant": "#3b4b3d",
+                    "on-secondary-container": "#5b3800",
+                    "error": "#ffb4ab",
+                    "tertiary-fixed-dim": "#e5c364",
+                    "tertiary-fixed": "#ffe08d",
+                    "primary-fixed-dim": "#00e479",
+                    "on-tertiary-fixed": "#241a00",
+                    "secondary-fixed": "#ffddb8",
+                    "on-surface": "#dae6d8",
+                    "secondary-fixed-dim": "#ffb95f",
+                    "primary-container": "#00ff88",
+                    "on-error-container": "#ffdad6",
+                    "inverse-primary": "#006d37",
+                    "on-primary-fixed": "#00210c",
+                    "surface-tint": "#00e479",
+                    "on-error": "#690005",
+                    "on-secondary": "#472a00",
+                    "surface": "#0c160e",
+                    "on-secondary-fixed": "#2a1700",
+                    "on-primary-fixed-variant": "#005228",
+                    "error-container": "#93000a",
+                    "surface-container": "#18221a",
+                    "on-primary-container": "#007139",
+                    "primary": "#f1ffef",
+                    "surface-container-highest": "#2d372e",
+                    "secondary": "#ffb95f",
+                    "tertiary": "#fffaf7",
+                    "on-secondary-fixed-variant": "#653e00",
+                    "inverse-on-surface": "#29332a",
+                    "surface-container-high": "#222c24"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "sm": "16px",
+                    "lg": "40px",
+                    "md": "24px",
+                    "xs": "8px",
+                    "base": "4px",
+                    "margin-mobile": "16px",
+                    "xl": "64px",
+                    "margin-desktop": "48px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Sora"],
+                    "body-sm": ["Inter"],
+                    "display-lg": ["Sora"],
+                    "body-lg": ["Inter"],
+                    "headline-lg-mobile": ["Sora"],
+                    "technical-md": ["JetBrains Mono"],
+                    "headline-lg": ["Sora"],
+                    "technical-sm": ["JetBrains Mono"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "technical-md": ["14px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "technical-sm": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(26, 46, 28, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 255, 136, 0.1);
+        }
+        .leaf-pattern {
+            background-image: radial-gradient(circle at 2px 2px, rgba(0, 255, 136, 0.05) 1px, transparent 0);
+            background-size: 32px 32px;
+        }
+        .bioluminescent-glow {
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container min-h-screen leaf-pattern overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-gutter py-sm max-w-[1440px] mx-auto bg-surface/60 backdrop-blur-md border-b border-white/10">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">eco</span>
+<span class="font-headline-lg text-headline-lg text-primary-container font-bold tracking-tighter">HerbTrace</span>
+</div>
+<nav class="hidden md:flex items-center gap-md">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors" href="#">Dashboard</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors" href="#">Traceability</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors" href="#">Compliance</a>
+</nav>
+<div class="flex items-center gap-sm">
+<button class="hidden sm:block font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors px-base">Log In</button>
+<button class="bg-primary-container text-on-primary-container px-md py-xs rounded-lg font-headline-md text-headline-md text-[14px] hover:scale-95 transition-all duration-150 shadow-lg bioluminescent-glow">
+                Track Batch
+            </button>
+</div>
+</header>
+<main class="relative pt-xl">
+<!-- Hero Section -->
+<section class="relative px-gutter py-xl md:py-[120px] flex flex-col items-center text-center max-w-[1440px] mx-auto overflow-hidden">
+<!-- Decorative Motif -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full opacity-[0.03] pointer-events-none">
+<svg class="w-full h-full" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<path d="M40,-62.1C53.3,-54.5,66.5,-45.1,73.5,-32.4C80.5,-19.7,81.3,-3.7,77.5,11.2C73.7,26.1,65.3,39.9,54.4,50.7C43.5,61.5,30.1,69.4,15.6,72.4C1.1,75.4,-14.5,73.5,-28.9,67.6C-43.3,61.7,-56.6,51.8,-66.2,39.2C-75.8,26.6,-81.7,11.3,-80.4,-3.4C-79.1,-18.1,-70.6,-32.2,-59.5,-42.6C-48.4,-53,-34.7,-59.7,-21.2,-67.2C-7.7,-74.7,5.6,-83,18.8,-82.3C32.1,-81.6,26.7,-69.7,40,-62.1Z" fill="currentColor" transform="translate(100 100)"></path>
+</svg>
+</div>
+<div class="relative z-10 space-y-md max-w-4xl">
+<div class="inline-flex items-center gap-xs px-sm py-base rounded-full glass-panel border-primary-container/20">
+<span class="material-symbols-outlined text-[14px] text-primary-container">verified</span>
+<span class="font-technical-sm text-technical-sm text-primary-container">V3.0 SECURE PROTOCOL ACTIVE</span>
+</div>
+<h1 class="font-display-lg text-display-lg md:text-[72px] tracking-tight text-on-surface">
+                    Every Herb. <span class="text-primary-container">Verified.</span><br/>Traceable.
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">
+                    The world’s first cryptographically secured supply chain for organic botanicals. From soil chemistry to final delivery, every step is etched into the immutable ledger.
+                </p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-md pt-md">
+<button class="w-full sm:w-auto bg-primary-container text-on-primary-container px-xl py-md rounded-xl font-headline-md text-headline-md hover:brightness-110 transition-all shadow-xl bioluminescent-glow group">
+                        Track a Batch
+                        <span class="material-symbols-outlined align-middle ml-xs group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<button class="w-full sm:w-auto glass-panel text-on-surface px-xl py-md rounded-xl font-headline-md text-headline-md hover:bg-surface-variant/30 transition-all border border-outline-variant/30">
+                        View Demo
+                    </button>
+</div>
+</div>
+<!-- Hero Image/Visual -->
+<div class="mt-xl w-full max-w-5xl glass-panel rounded-3xl overflow-hidden shadow-2xl relative aspect-video border border-white/5">
+<img class="w-full h-full object-cover opacity-80" data-alt="A high-tech digital laboratory dashboard displaying a detailed 3D microscopic view of a medicinal herb leaf structure. The interface features glowing bioluminescent green data overlays, cryptographic hash strings in monospaced font, and real-time transit maps. The lighting is moody and cinematic, with deep forest green shadows and vibrant neon green accents. A professional, premium B2B supply chain aesthetic with glassmorphism effects and sharp technological precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAA4mLgzhQozmTqZxbKF4rCdZGfjjWd7ao35GTvjUmI6XEwA0CEFOb0S9vP-f4ou_NncOEO4-w5XtUfx-NKOYxNvPVfzJ_GpGpG6Z_mOx3CMhzFIskBvn5Dx8xD7xeS3IZcWgQzgsn145yZP3VtFuo_g2zn83pzQHt1lmgPa8l08XEqz8asjsd0XshEJMz58lEt4joPVF410PamZNm4D5Yv09M_ObJd5BwAoNqemZPKfDo0DjWg0LSpNLBe0ju_FJmGL6aOsAPAyd6b"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+</div>
+</section>
+<!-- Feature Bento Grid -->
+<section class="px-gutter py-xl max-w-[1440px] mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-end mb-lg gap-md">
+<div class="space-y-xs">
+<span class="font-technical-md text-technical-md text-primary-container">INFRASTRUCTURE</span>
+<h2 class="font-headline-lg text-headline-lg md:text-[40px] text-on-surface">Precision Data Integrity</h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">
+                    We bridge the gap between organic agriculture and blockchain security using cutting-edge verification nodes.
+                </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-md">
+<!-- Card 1: WhatsApp Input -->
+<div class="md:col-span-7 glass-panel rounded-2xl p-lg flex flex-col justify-between group hover:border-primary-container/30 transition-all duration-300">
+<div class="space-y-sm">
+<div class="w-12 h-12 rounded-xl bg-primary-container/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+</div>
+<h3 class="font-headline-md text-headline-md">WhatsApp Entry</h3>
+<p class="font-body-md text-on-surface-variant">Log batch data instantly from the field. No complex apps, just secure end-to-end encrypted messaging directly to the protocol nodes.</p>
+</div>
+<div class="mt-xl bg-surface-container-low rounded-xl p-md border border-outline-variant/20 font-technical-sm text-technical-sm text-primary-container/70">
+<div class="flex items-center gap-xs mb-xs">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+                            PROTOCOL_LISTEN: +1 (555) HERB-TRC
+                        </div>
+<div class="text-on-surface opacity-40">Waiting for payload...</div>
+</div>
+</div>
+<!-- Card 2: Hash-Chain Security -->
+<div class="md:col-span-5 glass-panel rounded-2xl p-lg space-y-md border-primary-container/5">
+<div class="w-12 h-12 rounded-xl bg-primary-container/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container">link</span>
+</div>
+<h3 class="font-headline-md text-headline-md">Hash-Chain Security</h3>
+<p class="font-body-md text-on-surface-variant">Every logistical hop generates a cryptographic fingerprint, ensuring your product remains untampered and genuine.</p>
+<div class="pt-base space-y-xs">
+<div class="flex justify-between font-technical-sm text-technical-sm bg-surface-container/50 p-xs rounded border border-white/5">
+<span class="text-outline">TX_ID</span>
+<span class="text-primary-container">0x7a...4f2e</span>
+</div>
+<div class="flex justify-between font-technical-sm text-technical-sm bg-surface-container/50 p-xs rounded border border-white/5">
+<span class="text-outline">BLOCK</span>
+<span class="text-on-surface">#14,292,081</span>
+</div>
+</div>
+</div>
+<!-- Card 3: Real-time Tracking -->
+<div class="md:col-span-12 glass-panel rounded-2xl p-lg flex flex-col md:flex-row items-center gap-lg">
+<div class="w-full md:w-1/2 space-y-md">
+<div class="w-12 h-12 rounded-xl bg-primary-container/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container">location_on</span>
+</div>
+<h3 class="font-headline-md text-headline-md">Real-time Global Tracking</h3>
+<p class="font-body-md text-on-surface-variant">Monitor humidity, temperature, and GPS coordinates of your herbal assets in real-time. Instant alerts for protocol violations.</p>
+<ul class="space-y-xs">
+<li class="flex items-center gap-xs font-body-sm">
+<span class="material-symbols-outlined text-primary-container text-[18px]">check_circle</span>
+                                ISO 22000 Compliance
+                            </li>
+<li class="flex items-center gap-xs font-body-sm">
+<span class="material-symbols-outlined text-primary-container text-[18px]">check_circle</span>
+                                Cold-Chain Integrity Monitoring
+                            </li>
+</ul>
+</div>
+<div class="w-full md:w-1/2 h-[300px] rounded-xl overflow-hidden border border-outline-variant/30">
+<img class="w-full h-full object-cover" data-alt="A sophisticated dark-themed world map interface with bioluminescent green nodes and glowing data pathways connecting botanical production sites in Madagascar to global hubs. The map features topographic details and semi-transparent glass layers showing technical telemetry like temperature and shipping status. Aesthetic is ultra-modern, high-end supply chain tech, set against a deep forest green and black background." data-location="Madagascar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBF7Q2tdTXbPmS3jOWGbJdF-rhqXnzkcp88fAKCHRty7ppzCLoAsWxQBe4TGkPFwNIZu3K80EBgGgRMnPdnsYURS-Jtn5OHe4eMs7L-WUjgVQoWhtO4Eu2detxWnG206lTbYaaysRIr5Mhv_qH-teFffShdb-sgCCwyb82qLhZlQ2D3VuVgTLHc8s9fXZ6pGYsjv9OLRpKoFINhnwmnInjerdvoltCBQrcqhgk-ca2F9HCCLWkNE_nvvdUNlENwzADl5M36k7ux72Cc"/>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="px-gutter py-xl max-w-[1440px] mx-auto text-center">
+<div class="glass-panel py-xl px-md rounded-[32px] border-primary-container/10 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary-container/5 blur-[100px]"></div>
+<div class="relative z-10 space-y-md">
+<h2 class="font-display-lg text-display-lg text-on-surface">Ready to secure your protocol?</h2>
+<p class="font-body-lg text-on-surface-variant max-w-xl mx-auto">Join the premium network of verified herb suppliers and pharmaceutical partners.</p>
+<div class="flex flex-col sm:flex-row justify-center gap-sm pt-sm">
+<button class="bg-primary-container text-on-primary-container px-lg py-md rounded-xl font-headline-md text-headline-md shadow-lg bioluminescent-glow hover:scale-95 transition-transform">
+                            Start Tracking Now
+                        </button>
+<button class="border border-outline text-on-surface px-lg py-md rounded-xl font-headline-md text-headline-md hover:bg-surface-variant/30 transition-all">
+                            Talk to an Expert
+                        </button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-xl px-gutter flex flex-col md:flex-row justify-between items-center gap-md bg-surface-container-lowest border-t border-outline-variant/20 mt-xl">
+<div class="flex flex-col gap-xs items-center md:items-start">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">eco</span>
+<span class="font-headline-md text-headline-md text-on-surface">HerbTrace</span>
+</div>
+<p class="font-technical-sm text-technical-sm text-outline">© 2024 HerbTrace Protocol. Cryptographically Secured.</p>
+</div>
+<nav class="flex flex-wrap justify-center gap-md">
+<a class="font-body-sm text-body-sm text-outline hover:text-primary-container transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-outline hover:text-primary-container transition-colors" href="#">Terms of Service</a>
+<a class="font-body-sm text-body-sm text-outline hover:text-primary-container transition-colors" href="#">API Documentation</a>
+<a class="font-body-sm text-body-sm text-outline hover:text-primary-container transition-colors" href="#">Node Status</a>
+</nav>
+<div class="flex gap-sm">
+<a class="w-10 h-10 rounded-full glass-panel flex items-center justify-center text-outline hover:text-primary-container transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">terminal</span>
+</a>
+<a class="w-10 h-10 rounded-full glass-panel flex items-center justify-center text-outline hover:text-primary-container transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">hub</span>
+</a>
+</div>
+</footer>
+</body></html>

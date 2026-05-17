@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#ee9800",
+                        "outline": "#849585",
+                        "surface-dim": "#0c160e",
+                        "inverse-surface": "#dae6d8",
+                        "surface-bright": "#323c32",
+                        "on-primary": "#003919",
+                        "on-tertiary": "#3d2f00",
+                        "on-background": "#dae6d8",
+                        "tertiary-container": "#ffdb79",
+                        "surface-container-low": "#141e16",
+                        "on-tertiary-fixed-variant": "#584400",
+                        "background": "#0c160e",
+                        "surface-variant": "#2d372e",
+                        "primary-fixed": "#60ff99",
+                        "on-tertiary-container": "#795f01",
+                        "on-surface-variant": "#b9cbb9",
+                        "surface-container-lowest": "#071009",
+                        "outline-variant": "#3b4b3d",
+                        "on-secondary-container": "#5b3800",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed-dim": "#e5c364",
+                        "tertiary-fixed": "#ffe08d",
+                        "primary-fixed-dim": "#00e479",
+                        "on-tertiary-fixed": "#241a00",
+                        "secondary-fixed": "#ffddb8",
+                        "on-surface": "#dae6d8",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "primary-container": "#00ff88",
+                        "on-error-container": "#ffdad6",
+                        "inverse-primary": "#006d37",
+                        "on-primary-fixed": "#00210c",
+                        "surface-tint": "#00e479",
+                        "on-error": "#690005",
+                        "on-secondary": "#472a00",
+                        "surface": "#0c160e",
+                        "on-secondary-fixed": "#2a1700",
+                        "on-primary-fixed-variant": "#005228",
+                        "error-container": "#93000a",
+                        "surface-container": "#18221a",
+                        "on-primary-container": "#007139",
+                        "primary": "#f1ffef",
+                        "surface-container-highest": "#2d372e",
+                        "secondary": "#ffb95f",
+                        "tertiary": "#fffaf7",
+                        "on-secondary-fixed-variant": "#653e00",
+                        "inverse-on-surface": "#29332a",
+                        "surface-container-high": "#222c24"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "sm": "16px",
+                        "lg": "40px",
+                        "md": "24px",
+                        "xs": "8px",
+                        "base": "4px",
+                        "margin-mobile": "16px",
+                        "xl": "64px",
+                        "margin-desktop": "48px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Sora"],
+                        "body-sm": ["Inter"],
+                        "display-lg": ["Sora"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Sora"],
+                        "technical-md": ["JetBrains Mono"],
+                        "headline-lg": ["Sora"],
+                        "technical-sm": ["JetBrains Mono"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "technical-md": ["14px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "technical-sm": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0c160e;
+            color: #dae6d8;
+            -webkit-font-smoothing: antialiased;
+        }
+        .glass-card {
+            background: rgba(26, 46, 28, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 228, 121, 0.1);
+        }
+        .timeline-line {
+            background: linear-gradient(to bottom, #00e479 0%, #00e479 50%, rgba(0, 228, 121, 0.2) 100%);
+        }
+        .glow-accent {
+            box-shadow: 0 0 20px rgba(0, 228, 121, 0.3);
+        }
+        .leaf-pattern {
+            background-image: radial-gradient(circle at 2px 2px, rgba(0, 228, 121, 0.03) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- Hero Background Section -->
+<div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+<div class="absolute inset-0 leaf-pattern opacity-50"></div>
+<div class="absolute -top-[20%] -left-[10%] w-[60%] h-[60%] bg-primary-container/5 rounded-full blur-[120px]"></div>
+<div class="absolute bottom-0 right-0 w-full h-[512px] bg-gradient-to-t from-surface-container-lowest to-transparent"></div>
+</div>
+<!-- Top Navigation (Shell suppressed for focused task, but Brand Header remains) -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-gutter py-sm max-w-[1440px] mx-auto bg-surface/60 backdrop-blur-md border-b border-white/10">
+<div class="flex items-center gap-xs">
+<span class="font-headline-lg text-headline-lg text-primary-container font-bold tracking-tighter">HerbTrace</span>
+</div>
+<div class="flex items-center gap-md">
+<div class="hidden md:flex items-center gap-sm">
+<span class="font-technical-sm text-technical-sm text-outline px-2 py-1 rounded border border-outline/20">BATCH_ID: HT-4929-X</span>
+</div>
+<button class="bg-primary-container text-on-primary-container px-md py-xs rounded-full font-headline-md text-[14px] hover:scale-95 transition-all duration-150">
+                Share Proof
+            </button>
+</div>
+</header>
+<main class="relative z-10 pt-[100px] pb-xl px-gutter max-w-[1000px] mx-auto">
+<!-- Hero Header -->
+<section class="text-center mb-xl">
+<div class="inline-flex items-center gap-xs px-3 py-1 rounded-full bg-primary-container/10 border border-primary-container/20 text-primary-fixed-dim mb-md">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-technical-sm text-technical-sm uppercase tracking-widest">Protocol Verified</span>
+</div>
+<h1 class="font-display-lg text-display-lg md:text-[56px] text-primary mb-sm">Pure Organic Peppermint</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-[600px] mx-auto">
+                Follow the journey of your herbs from the high-altitude soil of the Valais Alps to your final infusion.
+            </p>
+</section>
+<!-- Product Image & QR Quick Scan -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-md mb-xl">
+<div class="md:col-span-8">
+<div class="glass-card rounded-xl overflow-hidden aspect-[16/9] relative group">
+<img alt="Organic Peppermint Crop" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700" data-alt="A cinematic, close-up photograph of vibrant green organic peppermint leaves with visible dewdrops, set against a dark, moody forest soil background. The lighting is soft and bioluminescent, highlighting the intricate vein patterns of the leaves. The aesthetic is premium and technical, evoking a sense of pure, verified nature." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHA8i2ZmGaMQJ7Pra1pMvyUVFM2DUxUgF8wMT10CFXjQioZKrRL-dzFKVokVTNoDHJ74fOEcuTRZDlsvsGzhqnalFCfB6N4Fl7jOwA1BW205ZKNuUzCz3dOXxQIdyLstk9HS6CZvYvXNZqkKnQ7_oeGuTBNIgUQ-oEIAytTwf_keRyjBlna05JNnOVSWGne7PkDo23SbChu7qWgZeBSfy2_rgtXhrXjn_OXy5JRlXOC2PTqELAxez8n71Y9fAJZVdOsjm51jXU_0Rf"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim/80 to-transparent"></div>
+<div class="absolute bottom-md left-md">
+<p class="font-technical-md text-technical-md text-primary-container mb-base">ORIGIN</p>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Valais, Switzerland</h2>
+</div>
+</div>
+</div>
+<div class="md:col-span-4">
+<div class="glass-card h-full rounded-xl p-md flex flex-col items-center justify-center text-center">
+<div class="bg-white p-xs rounded-lg mb-md w-32 h-32 flex items-center justify-center">
+<!-- Simulated QR Code -->
+<div class="w-full h-full bg-surface-container-highest grid grid-cols-6 grid-rows-6 gap-0.5">
+<div class="bg-black col-span-2 row-span-2"></div><div class="bg-white"></div><div class="bg-black"></div><div class="bg-white"></div><div class="bg-black"></div>
+<div class="bg-white"></div><div class="bg-black"></div><div class="bg-white"></div><div class="bg-black col-span-2 row-span-2"></div><div class="bg-white"></div>
+<div class="bg-black"></div><div class="bg-white"></div><div class="bg-black"></div><div class="bg-black"></div><div class="bg-white"></div><div class="bg-black"></div>
+</div>
+</div>
+<p class="font-headline-md text-[18px] text-on-surface mb-xs">Permanent ID</p>
+<p class="font-technical-sm text-technical-sm text-outline mb-md">Click to copy cryptographic link</p>
+<button class="w-full py-sm rounded-lg border border-outline-variant/30 text-on-surface hover:bg-surface-variant/30 transition-all font-technical-md text-technical-md">
+                        HT-BATCH-4929-X
+                    </button>
+</div>
+</div>
+</div>
+<!-- Vertical Timeline Section -->
+<div class="relative max-w-[800px] mx-auto">
+<!-- Timeline Center Line -->
+<div class="absolute left-gutter md:left-1/2 top-0 bottom-0 w-[2px] timeline-line transform md:-translate-x-1/2"></div>
+<!-- Step 1: Farm -->
+<div class="relative grid grid-cols-1 md:grid-cols-2 gap-lg mb-xl group">
+<div class="md:text-right md:pr-xl order-2 md:order-1 ml-[60px] md:ml-0">
+<h3 class="font-headline-md text-headline-md text-primary mb-xs">Organic Harvest</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-sm">Harvested at peak potency in the Alpine valley. Soil pH and mineral content verified by IoT sensors.</p>
+<div class="flex flex-wrap md:justify-end gap-xs">
+<span class="px-xs py-1 rounded bg-surface-container-high text-outline font-technical-sm text-technical-sm">pH 6.8</span>
+<span class="px-xs py-1 rounded bg-surface-container-high text-outline font-technical-sm text-technical-sm">ALT 1,400m</span>
+</div>
+</div>
+<div class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-[48px] h-[48px] rounded-full glass-card border-primary-container flex items-center justify-center z-20 glow-accent">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">agriculture</span>
+</div>
+<div class="order-3 md:pl-xl ml-[60px] md:ml-0">
+<p class="font-technical-md text-technical-md text-primary-fixed-dim">Sept 14, 2023 • 06:12 AM</p>
+<p class="font-body-sm text-body-sm text-outline">Lot #A1-92 - Alpine Valley Farms</p>
+</div>
+</div>
+<!-- Step 2: Factory -->
+<div class="relative grid grid-cols-1 md:grid-cols-2 gap-lg mb-xl group">
+<div class="order-2 md:order-2 md:pl-xl ml-[60px] md:ml-0">
+<h3 class="font-headline-md text-headline-md text-primary mb-xs">Cold-Press Extraction</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-sm">Processed within 4 hours of harvest to preserve essential volatile oils using carbon-neutral technology.</p>
+<div class="flex flex-wrap gap-xs">
+<span class="px-xs py-1 rounded bg-surface-container-high text-outline font-technical-sm text-technical-sm">Temp 42°C</span>
+<span class="px-xs py-1 rounded bg-surface-container-high text-outline font-technical-sm text-technical-sm">ISO 22000</span>
+</div>
+</div>
+<div class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-[48px] h-[48px] rounded-full glass-card border-primary-container/40 flex items-center justify-center z-20">
+<span class="material-symbols-outlined text-primary-container">factory</span>
+</div>
+<div class="md:text-right md:pr-xl order-3 md:order-1 ml-[60px] md:ml-0">
+<p class="font-technical-md text-technical-md text-primary-fixed-dim">Sept 14, 2023 • 11:45 AM</p>
+<p class="font-body-sm text-body-sm text-outline">Bio-Processing Hub Zurich</p>
+</div>
+</div>
+<!-- Step 3: Lab Test -->
+<div class="relative grid grid-cols-1 md:grid-cols-2 gap-lg mb-xl group">
+<div class="md:text-right md:pr-xl order-2 md:order-1 ml-[60px] md:ml-0">
+<h3 class="font-headline-md text-headline-md text-primary mb-xs">Purity Lab Test</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-sm">Third-party mass spectrometry analysis performed to guarantee zero pesticide or heavy metal presence.</p>
+<button class="font-technical-sm text-technical-sm text-primary-container flex items-center md:justify-end gap-1 hover:underline">
+                        View Certificate <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</button>
+</div>
+<div class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-[48px] h-[48px] rounded-full glass-card border-primary-container/40 flex items-center justify-center z-20">
+<span class="material-symbols-outlined text-primary-container">science</span>
+</div>
+<div class="order-3 md:pl-xl ml-[60px] md:ml-0">
+<p class="font-technical-md text-technical-md text-primary-fixed-dim">Sept 16, 2023 • 14:30 PM</p>
+<p class="font-body-sm text-body-sm text-outline">GreenPath Labs (Independent)</p>
+</div>
+</div>
+<!-- Step 4: Verified -->
+<div class="relative grid grid-cols-1 md:grid-cols-2 gap-lg mb-xl group">
+<div class="order-2 md:order-2 md:pl-xl ml-[60px] md:ml-0">
+<h3 class="font-headline-md text-headline-md text-primary mb-xs">Final Packaging</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-sm">Eco-friendly glass container sealed and cryptographically tagged for direct-to-consumer delivery.</p>
+</div>
+<div class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-[48px] h-[48px] rounded-full bg-primary-container flex items-center justify-center z-20 glow-accent">
+<span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="md:text-right md:pr-xl order-3 md:order-1 ml-[60px] md:ml-0">
+<p class="font-technical-md text-technical-md text-primary-fixed-dim">Sept 18, 2023 • 09:00 AM</p>
+<p class="font-body-sm text-body-sm text-outline">HerbTrace Logistics Center</p>
+</div>
+</div>
+</div>
+<!-- SHA-256 Hash Proof Section -->
+<section class="mt-xl glass-card rounded-2xl p-lg relative overflow-hidden">
+<div class="absolute top-0 right-0 p-md">
+<div class="px-md py-xs bg-primary-container/20 border border-primary-container text-primary-container rounded-full font-technical-sm text-technical-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">verified_user</span>
+                    TAMPER-PROOF RECORD
+                </div>
+</div>
+<div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-md border-b border-outline-variant/20 pb-md mb-md">
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface mb-xs">Blockchain Proof</h4>
+<p class="font-body-sm text-body-sm text-outline">This record is permanently anchored to the Ethereum Mainnet.</p>
+</div>
+<div class="text-right">
+<span class="font-technical-sm text-technical-sm text-outline uppercase">Network Status</span>
+<div class="flex items-center gap-xs text-primary-container font-technical-md text-technical-md">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+                        LIVE NODES: 42,912
+                    </div>
+</div>
+</div>
+<div class="space-y-md">
+<div>
+<label class="font-technical-sm text-technical-sm text-outline block mb-xs uppercase tracking-tighter">Root SHA-256 Hash</label>
+<div class="bg-surface-container-lowest rounded-lg p-md font-technical-md text-technical-md text-primary-fixed-dim break-all border border-outline-variant/10">
+                        f8d48a3e91b5c2a10d9f8e7d6c5b4a39281706152433e2d1f0c9b8a7f6e5d4c3
+                    </div>
+</div>
+<div class="flex flex-col md:flex-row gap-md">
+<div class="flex-1">
+<label class="font-technical-sm text-technical-sm text-outline block mb-xs uppercase tracking-tighter">Genesis Timestamp</label>
+<p class="font-technical-md text-technical-md text-on-surface">2023-09-14T06:12:44.029Z</p>
+</div>
+<div class="flex-1">
+<label class="font-technical-sm text-technical-sm text-outline block mb-xs uppercase tracking-tighter">Block Height</label>
+<p class="font-technical-md text-technical-md text-on-surface">#18,231,094</p>
+</div>
+<div class="flex-1">
+<label class="font-technical-sm text-technical-sm text-outline block mb-xs uppercase tracking-tighter">Consensus Type</label>
+<p class="font-technical-md text-technical-md text-on-surface">Proof-of-Stake (PoS)</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Product Details CTA -->
+<section class="mt-lg grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="glass-card p-md rounded-xl flex items-center justify-between hover:bg-surface-variant/30 transition-all cursor-pointer">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined">menu_book</span>
+</div>
+<div>
+<p class="font-headline-md text-[16px] text-on-surface">Full Protocol Whitepaper</p>
+<p class="font-body-sm text-body-sm text-outline">Read our verification methods</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</div>
+<div class="glass-card p-md rounded-xl flex items-center justify-between hover:bg-surface-variant/30 transition-all cursor-pointer">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined">eco</span>
+</div>
+<div>
+<p class="font-headline-md text-[16px] text-on-surface">Sustainability Report</p>
+<p class="font-body-sm text-body-sm text-outline">Carbon footprint HT-4929</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-xl px-gutter flex flex-col md:flex-row justify-between items-center gap-md relative z-10 border-t border-outline-variant/20 bg-surface-container-lowest">
+<div class="flex flex-col gap-xs">
+<span class="font-headline-md text-headline-md text-on-surface">HerbTrace</span>
+<p class="font-technical-sm text-technical-sm text-outline">© 2024 HerbTrace Protocol. Cryptographically Secured.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-md">
+<a class="font-body-sm text-body-sm text-outline hover:text-primary-container transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-outline hover:text-primary-container transition-colors" href="#">Terms of Service</a>
+<a class="font-body-sm text-body-sm text-outline hover:text-primary-container transition-colors" href="#">API Documentation</a>
+<a class="font-body-sm text-body-sm text-outline hover:text-primary-container transition-colors flex items-center gap-1" href="#">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span> Node Status
+            </a>
+</div>
+</footer>
+</body></html>

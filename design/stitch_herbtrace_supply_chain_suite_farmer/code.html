@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HerbTrace | Farmer Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-container": "#ee9800",
+                    "outline": "#849585",
+                    "surface-dim": "#0c160e",
+                    "inverse-surface": "#dae6d8",
+                    "surface-bright": "#323c32",
+                    "on-primary": "#003919",
+                    "on-tertiary": "#3d2f00",
+                    "on-background": "#dae6d8",
+                    "tertiary-container": "#ffdb79",
+                    "surface-container-low": "#141e16",
+                    "on-tertiary-fixed-variant": "#584400",
+                    "background": "#0c160e",
+                    "surface-variant": "#2d372e",
+                    "primary-fixed": "#60ff99",
+                    "on-tertiary-container": "#795f01",
+                    "on-surface-variant": "#b9cbb9",
+                    "surface-container-lowest": "#071009",
+                    "outline-variant": "#3b4b3d",
+                    "on-secondary-container": "#5b3800",
+                    "error": "#ffb4ab",
+                    "tertiary-fixed-dim": "#e5c364",
+                    "tertiary-fixed": "#ffe08d",
+                    "primary-fixed-dim": "#00e479",
+                    "on-tertiary-fixed": "#241a00",
+                    "secondary-fixed": "#ffddb8",
+                    "on-surface": "#dae6d8",
+                    "secondary-fixed-dim": "#ffb95f",
+                    "primary-container": "#00ff88",
+                    "on-error-container": "#ffdad6",
+                    "inverse-primary": "#006d37",
+                    "on-primary-fixed": "#00210c",
+                    "surface-tint": "#00e479",
+                    "on-error": "#690005",
+                    "on-secondary": "#472a00",
+                    "surface": "#0c160e",
+                    "on-secondary-fixed": "#2a1700",
+                    "on-primary-fixed-variant": "#005228",
+                    "error-container": "#93000a",
+                    "surface-container": "#18221a",
+                    "on-primary-container": "#007139",
+                    "primary": "#f1ffef",
+                    "surface-container-highest": "#2d372e",
+                    "secondary": "#ffb95f",
+                    "tertiary": "#fffaf7",
+                    "on-secondary-fixed-variant": "#653e00",
+                    "inverse-on-surface": "#29332a",
+                    "surface-container-high": "#222c24"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "sm": "16px",
+                    "lg": "40px",
+                    "md": "24px",
+                    "xs": "8px",
+                    "base": "4px",
+                    "margin-mobile": "16px",
+                    "xl": "64px",
+                    "margin-desktop": "48px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Sora"],
+                    "body-sm": ["Inter"],
+                    "display-lg": ["Sora"],
+                    "body-lg": ["Inter"],
+                    "headline-lg-mobile": ["Sora"],
+                    "technical-md": ["JetBrains Mono"],
+                    "headline-lg": ["Sora"],
+                    "technical-sm": ["JetBrains Mono"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "technical-md": ["14px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "technical-sm": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0c160e;
+            color: #dae6d8;
+            background-image: radial-gradient(circle at 2px 2px, rgba(0, 255, 136, 0.03) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+        .glass-card {
+            background: rgba(26, 46, 28, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 255, 136, 0.1);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body class="font-body-md overflow-x-hidden">
+<!-- Sidebar Navigation Shell -->
+<aside class="hidden lg:flex flex-col h-screen fixed left-0 top-0 pt-xl pb-md bg-surface-container-low/60 backdrop-blur-xl border-r border-primary/10 w-64 z-50 shadow-xl">
+<div class="px-gutter mb-xl">
+<h1 class="font-headline-md text-headline-md text-primary-container font-black">HerbTrace</h1>
+<p class="font-technical-sm text-technical-sm text-outline uppercase tracking-widest mt-base">Verified Protocol</p>
+</div>
+<nav class="flex-1 space-y-base">
+<a class="flex items-center gap-sm bg-primary-container/10 text-primary-container border-l-4 border-primary-container px-4 py-3 translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-technical-md text-technical-md">Overview</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant hover:bg-surface-variant/30 px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-technical-md text-technical-md">Batches</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant hover:bg-surface-variant/30 px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="verified">verified</span>
+<span class="font-technical-md text-technical-md">Quality</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant hover:bg-surface-variant/30 px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+<span class="font-technical-md text-technical-md">Risk Analysis</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant hover:bg-surface-variant/30 px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-technical-md text-technical-md">Settings</span>
+</a>
+</nav>
+<div class="px-gutter mt-auto pt-lg border-t border-outline-variant/10">
+<div class="flex items-center gap-sm mb-lg">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center overflow-hidden border border-primary/20">
+<img class="w-full h-full object-cover" data-alt="Close-up professional headshot of a middle-aged male agricultural scientist in a modern lab setting. The lighting is soft and natural, emphasizing clean textures and a calm, expert demeanor. The overall aesthetic is high-end B2B, blending organic science with technological precision in a deep forest green color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC593TSOGPj5noOtpDA7ERJd1501xO4ApXG-rRIPPces-qENqD3WdUYGPo9DMQquZqaXymFy6WksLRB3veLqFTiwa9y8hb-GiWnnH3lf4QO-Sfg7sOaQ0sb21dBQU65zKLYJjwRQCp2M0_WjAEoXY-D-KTHt3JUO8DMMKRmBdAZHdg_0yp2Qp5HAf1YxPDAvEVWpFww2UYlbboOFSc-MqgG_C9zCLkitGmTtp4XOO2eGK8jy_uJDkhOu5NfxOYOR4LyBUWWlnmf-wwf"/>
+</div>
+<div>
+<p class="font-technical-md text-technical-md text-on-surface">Admin</p>
+<p class="font-technical-sm text-technical-sm text-outline">System Admin</p>
+</div>
+</div>
+<a class="flex items-center gap-sm text-on-surface-variant hover:text-primary-container transition-colors py-xs" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-technical-sm text-technical-sm">Help</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant hover:text-error transition-colors py-xs" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-technical-sm text-technical-sm">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:ml-64 min-h-screen px-gutter py-xl">
+<!-- Header Section -->
+<header class="mb-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-md">
+<div>
+<h2 class="font-display-lg text-display-lg text-on-surface">Farmer Dashboard</h2>
+<p class="font-body-lg text-body-lg text-outline mt-xs max-w-2xl">Log your botanical harvest with cryptographic verification and real-time traceability.</p>
+</div>
+<div class="flex items-center gap-sm">
+<div class="px-sm py-xs glass-card rounded-xl flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+<span class="font-technical-sm text-technical-sm text-primary-container">NODE ACTIVE: VERIFIED</span>
+</div>
+</div>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Left Column: Herb Entry Form -->
+<section class="col-span-12 xl:col-span-4 space-y-gutter">
+<div class="glass-card rounded-xl p-md">
+<div class="flex items-center gap-sm mb-md border-b border-white/5 pb-sm">
+<span class="material-symbols-outlined text-primary-container" data-icon="potted_plant">potted_plant</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Harvest Entry</h3>
+</div>
+<form class="space-y-sm">
+<div class="space-y-base">
+<label class="font-technical-md text-technical-md text-outline">HERB NAME</label>
+<input class="w-full bg-surface-container-lowest border-outline-variant/30 rounded-lg py-sm px-md text-on-surface focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-all" placeholder="e.g. Organic Peppermint" type="text"/>
+</div>
+<div class="space-y-base">
+<label class="font-technical-md text-technical-md text-outline">QUANTITY (KG)</label>
+<input class="w-full bg-surface-container-lowest border-outline-variant/30 rounded-lg py-sm px-md text-on-surface focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-all" placeholder="0.00" type="number"/>
+</div>
+<div class="space-y-base">
+<label class="font-technical-md text-technical-md text-outline">LOCATION</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-outline-variant/30 rounded-lg py-sm px-md text-outline cursor-not-allowed" readonly="" type="text" value="Assam Highlands, Plot B-12"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-primary-container text-sm" data-icon="location_on">location_on</span>
+</div>
+</div>
+<div class="space-y-base">
+<label class="font-technical-md text-technical-md text-outline">PHOTO UPLOAD</label>
+<div class="border-2 border-dashed border-outline-variant/30 rounded-xl p-lg flex flex-col items-center justify-center gap-xs hover:border-primary-container/50 transition-colors cursor-pointer bg-surface-container-lowest/50">
+<span class="material-symbols-outlined text-outline text-3xl" data-icon="add_a_photo">add_a_photo</span>
+<p class="font-body-sm text-body-sm text-outline">Drag &amp; drop harvest photo</p>
+</div>
+</div>
+<button class="w-full bg-primary-container text-on-primary-container font-headline-md py-sm rounded-xl mt-md hover:brightness-110 active:scale-[0.98] transition-all" type="submit">
+                            Log Entry
+                        </button>
+</form>
+</div>
+<!-- WhatsApp Bot Instructions -->
+<div class="glass-card rounded-xl p-md relative overflow-hidden">
+<div class="absolute -right-4 -top-4 opacity-10">
+<span class="material-symbols-outlined text-[120px] text-primary-container" data-icon="chat">chat</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary-container" data-icon="smart_toy">smart_toy</span>
+                        Assistant Bot
+                    </h3>
+<div class="space-y-md">
+<div class="p-sm bg-surface-container-highest/30 rounded-lg border border-white/5">
+<p class="font-technical-md text-technical-md text-primary-fixed">1. Save Number</p>
+<p class="font-body-sm text-body-sm text-outline">+1 (555) HERB-TRC</p>
+</div>
+<div class="p-sm bg-surface-container-highest/30 rounded-lg border border-white/5">
+<p class="font-technical-md text-technical-md text-primary-fixed">2. Text "START"</p>
+<p class="font-body-sm text-body-sm text-outline">Receive your session token</p>
+</div>
+<div class="p-sm bg-surface-container-highest/30 rounded-lg border border-white/5">
+<p class="font-technical-md text-technical-md text-primary-fixed">3. Send Photo</p>
+<p class="font-body-sm text-body-sm text-outline">AI will auto-analyze the herb species</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Column: Recent Submissions -->
+<section class="col-span-12 xl:col-span-8 space-y-gutter">
+<div class="flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface">Recent Submissions</h3>
+<div class="flex gap-xs">
+<button class="px-sm py-xs glass-card rounded-full text-technical-sm text-outline hover:text-primary-container transition-all">All</button>
+<button class="px-sm py-xs glass-card rounded-full text-technical-sm text-outline hover:text-primary-container transition-all">Verified</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<!-- Submission Card 1 -->
+<div class="glass-card rounded-xl overflow-hidden hover:border-primary-container/30 transition-all group">
+<div class="h-40 relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A cinematic, overhead shot of freshly harvested deep green sage leaves drying on a rustic wooden table. The lighting is low-key with a bioluminescent green glow highlighting the leaf veins, creating a tech-natural aesthetic. The background is a dark, textured farm environment with soft focus, maintaining a premium and secure B2B atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlnz_T_N17AFNqiVVe5tejvQH2un_KU2BnUZoz965zsXogxGyQvfJDT6BsMY5_gKz6fqcW1gJIDi8BfdOjii991EACj8pTqJwAshBn77XMC4Ud6klaipurHkCb1vPpJ9zlZM_gKpkijs59VLRNQgFuvu0eGJvli2kmB9Lse6aH_nV7U_b2oUkrPxh5wVJrCq1_WOwu7M4TXRsojWDj68lv73Xz0grE7VbLIePM5KBnwW3fz9PmTG2WyTBvtjQTkPMFXzc3NFdavApK"/>
+<div class="absolute top-sm right-sm px-xs py-1 rounded-full bg-primary-container/20 backdrop-blur-md border border-primary-container/40">
+<span class="font-technical-sm text-technical-sm text-primary-container">VERIFIED</span>
+</div>
+</div>
+<div class="p-md space-y-sm">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface">Dried Sage</h4>
+<p class="font-technical-sm text-technical-sm text-outline">BATCH: #HT-9921-X</p>
+</div>
+<p class="font-headline-md text-headline-md text-primary-container">45kg</p>
+</div>
+<div class="flex items-center gap-xs text-outline border-t border-white/5 pt-sm mt-sm">
+<span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span>
+<span class="font-technical-sm text-technical-sm">2 hours ago</span>
+<span class="mx-xs text-white/10">|</span>
+<span class="material-symbols-outlined text-sm" data-icon="fingerprint">fingerprint</span>
+<span class="font-technical-sm text-technical-sm truncate max-w-[100px]">0x72a...b4e</span>
+</div>
+</div>
+</div>
+<!-- Submission Card 2 -->
+<div class="glass-card rounded-xl overflow-hidden hover:border-primary-container/30 transition-all group">
+<div class="h-40 relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Close-up of vibrant lavender sprigs captured in a high-tech lab setting with cool, bioluminescent purple and green lighting. The focus is sharp on the flowers, while the background reveals blurry silhouettes of laboratory glassware. The mood is precise, scientific, and premium, echoing a high-end digital nature aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMSM5ryBt0kH2Mq_gJwUbYppvWgYGUH2PYWez9gGIScDarlnShrsB2AuXNPxWowdCglo4BWmb1T4GU5Z4Sy9GeGYbJRWClRXu1NPRM5O_hP5AceNZKEYptZEjh0sLCzZiiZ8IuZhccZ7oVgMslg0lsAON44zOiPMOekZebExGJMj0tFCrICHpdA0iSI5_2dtjaybAqalIUEve8ElGwuGqJX7WW_77ntXHeV54M7hza2p8nZdbMmvARQpeOjuVC9o7HQF4VC0GyjAU2"/>
+<div class="absolute top-sm right-sm px-xs py-1 rounded-full bg-secondary-container/20 backdrop-blur-md border border-secondary-container/40">
+<span class="font-technical-sm text-technical-sm text-secondary-container">IN-TRANSIT</span>
+</div>
+</div>
+<div class="p-md space-y-sm">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface">Lavender</h4>
+<p class="font-technical-sm text-technical-sm text-outline">BATCH: #HT-8812-Y</p>
+</div>
+<p class="font-headline-md text-headline-md text-primary-container">12kg</p>
+</div>
+<div class="flex items-center gap-xs text-outline border-t border-white/5 pt-sm mt-sm">
+<span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span>
+<span class="font-technical-sm text-technical-sm">5 hours ago</span>
+<span class="mx-xs text-white/10">|</span>
+<span class="material-symbols-outlined text-sm" data-icon="fingerprint">fingerprint</span>
+<span class="font-technical-sm text-technical-sm truncate max-w-[100px]">0x19d...c2f</span>
+</div>
+</div>
+</div>
+<!-- Submission Card 3 -->
+<div class="glass-card rounded-xl overflow-hidden hover:border-primary-container/30 transition-all group">
+<div class="h-40 relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Macro photography of fresh basil leaves covered in morning dew. The lighting is a blend of dawn light and a subtle green laser grid overlaying the leaf surface, representing digital scanning and verification. The environment is dark and atmospheric, suggesting a deep forest floor at night." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDK5KTMOaENcP1dxuhHWuBiKSVRpLTRlzdhz3z0MN0JRF_TYyGk5X9kbaQDYYFUkHrAnuVpUVXRVB9Qh031RTnF4nh_AlPOmvr8QQiInW6aFAAn3v-3pUEWKxP4oTM3-C0kv1cDyiHbl0VK_Pytbz1i4tXiyg80xFXnOAw_zNlngTihf6K1lzXP1tjU7qzWk1AoipeeQWKClrSB1DYmfb_2AhY2CSWfS9Y6UmQj0Kyilxwx6dZgaVXNFbknMriz43hW3ugmdDM9DX6x"/>
+<div class="absolute top-sm right-sm px-xs py-1 rounded-full bg-primary-container/20 backdrop-blur-md border border-primary-container/40">
+<span class="font-technical-sm text-technical-sm text-primary-container">VERIFIED</span>
+</div>
+</div>
+<div class="p-md space-y-sm">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface">Sweet Basil</h4>
+<p class="font-technical-sm text-technical-sm text-outline">BATCH: #HT-7710-A</p>
+</div>
+<p class="font-headline-md text-headline-md text-primary-container">82kg</p>
+</div>
+<div class="flex items-center gap-xs text-outline border-t border-white/5 pt-sm mt-sm">
+<span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span>
+<span class="font-technical-sm text-technical-sm">1 day ago</span>
+<span class="mx-xs text-white/10">|</span>
+<span class="material-symbols-outlined text-sm" data-icon="fingerprint">fingerprint</span>
+<span class="font-technical-sm text-technical-sm truncate max-w-[100px]">0x33b...e11</span>
+</div>
+</div>
+</div>
+<!-- Submission Card 4 (Empty/Placeholder State) -->
+<div class="glass-card rounded-xl border-dashed border-outline-variant/30 flex flex-col items-center justify-center p-md group cursor-pointer hover:bg-surface-variant/10">
+<div class="w-12 h-12 rounded-full bg-surface-variant/30 flex items-center justify-center mb-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-outline" data-icon="add">add</span>
+</div>
+<p class="font-headline-md text-headline-md text-outline">New Batch</p>
+<p class="font-body-sm text-body-sm text-outline/60 text-center mt-xs">Start a new harvest log<br/>for verification</p>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer -->
+<footer class="lg:ml-64 w-full py-xl px-gutter flex flex-col md:flex-row justify-between items-center gap-md border-t border-outline-variant/20 bg-surface-container-lowest">
+<div class="flex flex-col gap-xs">
+<h4 class="font-headline-md text-headline-md text-on-surface">HerbTrace</h4>
+<p class="font-body-sm text-body-sm text-outline">© 2024 HerbTrace Protocol. Cryptographically Secured.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-md">
+<a class="font-technical-sm text-technical-sm text-outline hover:text-primary-container transition-colors" href="#">Privacy Policy</a>
+<a class="font-technical-sm text-technical-sm text-outline hover:text-primary-container transition-colors" href="#">Terms of Service</a>
+<a class="font-technical-sm text-technical-sm text-outline hover:text-primary-container transition-colors" href="#">API Documentation</a>
+<a class="font-technical-sm text-technical-sm text-outline hover:text-primary-container transition-colors" href="#">Node Status</a>
+</div>
+</footer>
+</body></html>

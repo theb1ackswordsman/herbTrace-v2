@@ -1,0 +1,543 @@
+# HerbTrace V2 — Complete Implementation Plan
+
+> **Goal**: Production-ready herb supply chain traceability platform for CV.  
+> **Blockchain removed** → replaced with SHA-256 hash-chain audit log in PostgreSQL.
+
+---
+
+## System Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                         CLIENTS                                     │
+│                                                                     │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐           │
+│  │ WhatsApp │  │  Farmer  │  │ Factory  │  │ Consumer │           │
+│  │  (Phone) │  │Dashboard │  │Dashboard │  │  Scan    │           │
+│  └────┬─────┘  └────┬─────┘  └────┬─────┘  └────┬─────┘           │
+│       │              │              │              │     ┌─────────┐│
+│       │              │              │              │     │Regulator││
+│       │              │              │              │     │Dashboard││
+│       │              │              │              │     └────┬────┘│
+└───────┼──────────────┼──────────────┼──────────────┼──────────┼────┘
+        │              │              │              │          │
+        ▼              ▼              ▼              ▼          ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                    EXPRESS.JS API SERVER (Railway)                   │
+│                                                                     │
+│  ┌──────────────┐  ┌──────────────┐  ┌───────────────────────────┐ │
+│  │ /api/webhook  │  │ /api/batches │  │ /api/verify/:batchId      │ │
+│  │ (Twilio IN)   │  │ /api/auth    │  │ (Hash-Chain Verification) │ │
+│  └──────┬───────┘  └──────┬───────┘  └───────────┬───────────────┘ │
+│         │                 │                       │                 │
+│         ▼                 ▼                       ▼                 │
+│  ┌──────────────────────────────────────────────────────┐          │
+│  │           EventEmitter (Internal Event Bus)           │          │
+│  │  Events: BATCH_CREATED, BATCH_RECEIVED,               │          │
+│  │          QUALITY_RATED, FRAUD_FLAGGED, BATCH_VERIFIED  │          │
+│  └──────────────────────┬───────────────────────────────┘          │
+│                         │                                           │
+│                         ▼                                           │
+│  ┌──────────────────────────────────────────────────────┐          │
+│  │              Hash-Chain Audit Service                  │          │
+│  │  SHA-256(prev_hash + event_data) → append to audit_log│          │
+│  └──────────────────────┬───────────────────────────────┘          │
+│                         │                                           │
+└─────────────────────────┼───────────────────────────────────────────┘
+                          │
+          ┌───────────────┼───────────────┐
+          ▼               ▼               ▼
+   ┌────────────┐  ┌────────────┐  ┌────────────┐
+   │  Supabase  │  │  Firebase  │  │   Twilio   │
+   │ PostgreSQL │  │  Storage   │  │  WhatsApp  │
+   │ (All Data) │  │  (Images)  │  │   (OUT)    │
+   └────────────┘  └────────────┘  └────────────┘
+```
+
+### Why Each Technology
+
+| Technology | Role | Why This Over Alternatives |
+|---|---|---|
+| **Node.js + Express** | API server | You know it deeply from Flash Sale project. Interview-proof. |
+| **Supabase (PostgreSQL)** | All relational data + audit log | Free tier, real Postgres, row-level security, hosted. You already have an account. |
+| **Firebase Storage** | Image uploads from WhatsApp | Already configured from prototype. Free tier. Simple SDK. |
+| **React + Vite** | Frontend SPA | Industry standard for SDE roles. Fast dev server. |
+| **Tailwind CSS** | Styling | Rapid UI development, consistent design tokens. |
+| **Framer Motion** | Animations | Premium feel for consumer timeline page. |
+| **Twilio WhatsApp** | Farmer input channel | Unique differentiator — no other portfolio project has this. |
+| **JWT (jsonwebtoken)** | Auth for Factory/Regulator | Stateless auth you can explain in interviews. |
+| **Node EventEmitter** | Internal event bus | Demonstrates event-driven architecture without Redis complexity. |
+| **SHA-256 (crypto)** | Hash-chain integrity | Built into Node.js. Same tamper-proof guarantee as blockchain. |
+
+---
+
+## Folder Structure
+
+```
+herbtrace-v2/
+├── backend/
+│   ├── src/
+│   │   ├── server.js                  # Express app entry point
+│   │   ├── config/
+│   │   │   ├── supabase.js            # Supabase client init
+│   │   │   ├── firebase.js            # Firebase Admin SDK init
+│   │   │   └── env.js                 # Environment variable validation
+│   │   ├── routes/
+│   │   │   ├── auth.routes.js         # POST /api/auth/login, /register
+│   │   │   ├── batch.routes.js        # CRUD /api/batches
+│   │   │   ├── webhook.routes.js      # POST /api/webhook/twilio
+│   │   │   ├── verify.routes.js       # GET /api/verify/:batchId
+│   │   │   └── regulator.routes.js    # GET /api/regulator/flagged, /export
+│   │   ├── services/
+│   │   │   ├── hashChain.service.js   # SHA-256 hash-chain logic
+│   │   │   ├── eventBus.service.js    # Node EventEmitter wrapper
+│   │   │   ├── twilio.service.js      # WhatsApp message parsing & replies
+│   │   │   ├── fraud.service.js       # 4-factor risk scoring engine
+│   │   │   ├── qr.service.js          # QR code generation (qrcode npm)
+│   │   │   └── upload.service.js      # Firebase Storage uploads
+│   │   ├── middleware/
+│   │   │   ├── auth.middleware.js     # JWT verification
+│   │   │   └── validate.middleware.js # Request body validation (Joi)
+│   │   └── utils/
+│   │       └── hash.util.js           # SHA-256 helper functions
+│   ├── package.json
+│   ├── .env.example
+│   └── .gitignore
+│
+├── frontend/
+│   ├── src/
+│   │   ├── main.jsx                   # React entry
+│   │   ├── App.jsx                    # Router setup
+│   │   ├── api/
+│   │   │   └── client.js             # Axios instance with JWT interceptor
+│   │   ├── pages/
+│   │   │   ├── Landing.jsx            # Public landing page
+│   │   │   ├── Login.jsx              # Auth page
+│   │   │   ├── FarmerDashboard.jsx    # Batch submission form
+│   │   │   ├── FactoryDashboard.jsx   # QR scan + quality rating
+│   │   │   ├── RegulatorDashboard.jsx # Fraud analytics + CSV export
+│   │   │   └── ConsumerTimeline.jsx   # /track/:batchId — hero page
+│   │   ├── components/
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── Timeline.jsx           # Framer Motion animated timeline
+│   │   │   ├── HashProof.jsx          # Shows hash-chain verification
+│   │   │   ├── QRScanner.jsx          # html5-qrcode wrapper
+│   │   │   ├── RiskBadge.jsx
+│   │   │   ├── FraudChart.jsx         # Chart.js doughnut
+│   │   │   └── LanguageSelector.jsx   # i18n switcher
+│   │   ├── hooks/
+│   │   │   └── useAuth.js            # JWT auth context hook
+│   │   ├── i18n/
+│   │   │   ├── en.json
+│   │   │   ├── hi.json
+│   │   │   └── pa.json
+│   │   └── index.css                  # Tailwind directives + custom tokens
+│   ├── tailwind.config.js
+│   ├── vite.config.js
+│   ├── package.json
+│   └── .gitignore
+│
+├── README.md                          # Architecture diagram + screenshots
+└── .gitignore
+```
+
+---
+
+## Database Schema (Supabase PostgreSQL)
+
+### Table: `users`
+```sql
+CREATE TABLE users (
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name        TEXT NOT NULL,
+  phone       TEXT UNIQUE,          -- for WhatsApp-linked farmers
+  email       TEXT UNIQUE,          -- for web login (factory/regulator)
+  password    TEXT,                  -- bcrypt hash (NULL for WhatsApp-only farmers)
+  role        TEXT NOT NULL CHECK (role IN ('farmer', 'factory', 'regulator')),
+  aadhaar     TEXT,                  -- masked, for farmer identity
+  reputation  DECIMAL(3,2) DEFAULT 5.00,  -- avg rating 0-5
+  created_at  TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+### Table: `batches`
+```sql
+CREATE TABLE batches (
+  id          TEXT PRIMARY KEY,     -- e.g. 'BT-1716012345678'
+  farmer_id   UUID REFERENCES users(id),
+  herb        TEXT NOT NULL,
+  quantity    DECIMAL(10,2) NOT NULL,
+  quality     TEXT DEFAULT 'A',     -- A+, A, B
+  lat         DECIMAL(10,6),
+  lon         DECIMAL(10,6),
+  image_url   TEXT,                 -- Firebase Storage URL
+  status      TEXT DEFAULT 'created'
+                CHECK (status IN ('created','received','rated','flagged','verified')),
+  factory_rating  INTEGER,          -- 1-5, set by factory
+  created_at  TIMESTAMPTZ DEFAULT NOW(),
+  updated_at  TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+### Table: `audit_log` (THE HASH-CHAIN)
+```sql
+CREATE TABLE audit_log (
+  id            SERIAL PRIMARY KEY,
+  batch_id      TEXT REFERENCES batches(id),
+  event_type    TEXT NOT NULL
+                  CHECK (event_type IN (
+                    'BATCH_CREATED','BATCH_RECEIVED','QUALITY_RATED',
+                    'FRAUD_FLAGGED','BATCH_VERIFIED'
+                  )),
+  actor_id      UUID REFERENCES users(id),
+  event_data    JSONB NOT NULL,       -- full payload snapshot
+  prev_hash     TEXT NOT NULL,        -- hash of previous record (or 'GENESIS')
+  current_hash  TEXT NOT NULL,        -- SHA-256(prev_hash + event_data_json)
+  created_at    TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Index for fast chain walks
+CREATE INDEX idx_audit_batch ON audit_log(batch_id, id ASC);
+```
+
+### Table: `fraud_flags`
+```sql
+CREATE TABLE fraud_flags (
+  id          SERIAL PRIMARY KEY,
+  batch_id    TEXT REFERENCES batches(id),
+  risk_score  DECIMAL(5,4) NOT NULL,  -- 0.0000 to 1.0000
+  risk_level  TEXT CHECK (risk_level IN ('low','medium','high')),
+  factors     JSONB NOT NULL,          -- breakdown of each factor
+  flagged_by  UUID REFERENCES users(id),
+  created_at  TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+---
+
+## How the SHA-256 Hash-Chain Works
+
+### The Algorithm
+
+```
+Record #1 (GENESIS):
+  prev_hash    = "GENESIS"
+  event_data   = { batchId: "BT-001", event: "BATCH_CREATED", herb: "Ashwagandha", ... }
+  current_hash = SHA-256("GENESIS" + JSON.stringify(event_data))
+                = "a3f2b8c9d1e4..."
+
+Record #2:
+  prev_hash    = "a3f2b8c9d1e4..."  ← copied from Record #1's current_hash
+  event_data   = { batchId: "BT-001", event: "BATCH_RECEIVED", factory: "F-01", ... }
+  current_hash = SHA-256("a3f2b8c9d1e4..." + JSON.stringify(event_data))
+                = "7e1f0a2b3c4d..."
+
+Record #3:
+  prev_hash    = "7e1f0a2b3c4d..."  ← copied from Record #2's current_hash
+  ...and so on
+```
+
+### Why This Is Tamper-Proof
+
+If someone modifies Record #2's `event_data`:
+1. Re-computing `SHA-256(prev_hash + modified_data)` produces a **different** `current_hash`
+2. Record #3's `prev_hash` no longer matches Record #2's `current_hash`
+3. The chain is **broken** — detectable instantly by walking the chain
+
+### Service Logic (pseudocode)
+
+```
+async appendToAuditLog(batchId, eventType, eventData, actorId):
+  1. Query: SELECT current_hash FROM audit_log
+            WHERE batch_id = batchId ORDER BY id DESC LIMIT 1
+  2. prev_hash = result ? result.current_hash : "GENESIS"
+  3. payload = JSON.stringify({ ...eventData, timestamp: Date.now() })
+  4. current_hash = SHA-256(prev_hash + payload)
+  5. INSERT INTO audit_log (batch_id, event_type, actor_id, event_data,
+                            prev_hash, current_hash)
+     VALUES (batchId, eventType, actorId, payload, prev_hash, current_hash)
+  6. Return { current_hash, prev_hash }
+```
+
+### `/api/verify/:batchId` — Chain Verification Endpoint
+
+```
+GET /api/verify/BT-1716012345678
+
+Step 1: SELECT * FROM audit_log WHERE batch_id = :batchId ORDER BY id ASC
+Step 2: For each record starting from the first:
+         - If record is first: check that prev_hash === "GENESIS"
+         - Else: check that record.prev_hash === previousRecord.current_hash
+         - Re-compute: expected = SHA-256(record.prev_hash + record.event_data)
+         - Compare: expected === record.current_hash
+         - If mismatch → chain is BROKEN at this record
+Step 3: Return:
+  {
+    batchId: "BT-001",
+    totalEvents: 4,
+    chainIntact: true | false,
+    brokenAt: null | { recordId: 3, expected: "abc...", actual: "def..." },
+    events: [
+      { type: "BATCH_CREATED", timestamp: "...", verified: true },
+      { type: "BATCH_RECEIVED", timestamp: "...", verified: true },
+      ...
+    ]
+  }
+```
+
+---
+
+## Twilio WhatsApp Webhook Flow
+
+```
+Farmer sends WhatsApp message to +14155238886
+         │
+         ▼
+Twilio receives it, POSTs to your webhook URL:
+POST https://your-railway-app.up.railway.app/api/webhook/twilio
+         │
+         ▼
+┌─────────────────────────────────────────────┐
+│           webhook.routes.js                  │
+│                                              │
+│  1. Parse req.body (Twilio sends form data): │
+│     - Body: message text                     │
+│     - From: whatsapp:+91XXXXXXXXXX           │
+│     - NumMedia: number of attached images    │
+│     - MediaUrl0: image URL (if sent)         │
+│                                              │
+│  2. Look up farmer by phone in users table   │
+│     - If not found → reply "Send REGISTER    │
+│       <name> <aadhaar> to get started"       │
+│                                              │
+│  3. Parse conversation state (stored in DB   │
+│     or in-memory map keyed by phone):        │
+│                                              │
+│     State: IDLE                              │
+│       User sends "new" → move to HERB_NAME   │
+│       Reply: "What herb are you submitting?" │
+│                                              │
+│     State: HERB_NAME                         │
+│       User sends "Ashwagandha"               │
+│       → move to QUANTITY                     │
+│       Reply: "How many kg?"                  │
+│                                              │
+│     State: QUANTITY                          │
+│       User sends "50"                        │
+│       → move to PHOTO                        │
+│       Reply: "Send a photo of the harvest"   │
+│                                              │
+│     State: PHOTO                             │
+│       User sends image                       │
+│       → Upload to Firebase Storage           │
+│       → Create batch in DB                   │
+│       → Emit BATCH_CREATED event             │
+│       → Generate QR code                     │
+│       → Reply with batch ID + QR image       │
+│       → move to IDLE                         │
+│                                              │
+│  4. Send reply via Twilio MessagingResponse  │
+└─────────────────────────────────────────────┘
+```
+
+### Twilio Reply Code Pattern
+```
+const twiml = new twilio.twiml.MessagingResponse();
+twiml.message('Your batch BT-001 has been registered! 🌿');
+res.type('text/xml').send(twiml.toString());
+```
+
+---
+
+## Fraud Detection Scoring
+
+### 4-Factor Weighted Risk Model
+
+| Factor | Weight | How It's Calculated |
+|---|---|---|
+| **Hash Integrity** | 0.35 | Run chain verification for this batch. If ANY hash link is broken → full weight. |
+| **Location Anomaly** | 0.25 | Is the GPS coordinate outside India's herb belt (lat 8°–37°N)? If yes → full weight. |
+| **Quantity Anomaly** | 0.20 | Is quantity > 2 standard deviations from mean for this herb type? → proportional weight. |
+| **Farmer Reputation** | 0.20 | Farmer's avg factory rating. If < 2.5/5 → full weight. If < 3.5 → half weight. |
+
+### Scoring Logic
+```
+riskScore = (hashWeight * 0.35) + (locationWeight * 0.25)
+          + (quantityWeight * 0.20) + (reputationWeight * 0.20)
+
+riskLevel:
+  score >= 0.70 → "high"    (🔴 auto-flag)
+  score >= 0.30 → "medium"  (🟡 review)
+  score <  0.30 → "low"     (🟢 verified)
+```
+
+### What Changed From Prototype
+- **Old**: "Blockchain mismatch" → checked if Firebase `blockchainRecords/` entry existed
+- **New**: "Hash integrity" → actually walks the SHA-256 chain and checks for tampering. **Much more technically defensible in interviews.**
+
+---
+
+## Event Pipeline (EventEmitter)
+
+```javascript
+// eventBus.service.js
+const EventEmitter = require('events');
+const bus = new EventEmitter();
+
+// Listeners registered at server startup:
+bus.on('BATCH_CREATED',  (data) => hashChainService.append(data));
+bus.on('BATCH_RECEIVED', (data) => hashChainService.append(data));
+bus.on('QUALITY_RATED',  (data) => hashChainService.append(data));
+bus.on('QUALITY_RATED',  (data) => fraudService.analyze(data));  // auto-check
+bus.on('FRAUD_FLAGGED',  (data) => hashChainService.append(data));
+bus.on('BATCH_VERIFIED', (data) => hashChainService.append(data));
+
+// Usage in route handlers:
+bus.emit('BATCH_CREATED', { batchId, farmerId, herb, quantity, ... });
+```
+
+### CV Bullet Point This Enables
+> *"Implemented event-driven pipeline: QR scan → EventEmitter → validation → append-only hash-chain ledger, processing batch verifications in <200ms"*
+
+---
+
+## JWT Authentication Flow
+
+```
+POST /api/auth/register  →  { email, password, role, name }
+  → bcrypt hash password → insert into users → return JWT
+
+POST /api/auth/login     →  { email, password }
+  → verify bcrypt → return JWT { userId, role, exp: 24h }
+
+Protected routes use auth.middleware.js:
+  → Extract Bearer token from Authorization header
+  → jwt.verify(token, JWT_SECRET)
+  → Attach req.user = { id, role }
+  → Role check: if route requires 'regulator' and user is 'factory' → 403
+```
+
+**Farmers via WhatsApp** don't use JWT — they're identified by phone number in the webhook.
+
+---
+
+## 6-Day Build Plan
+
+### Day 1: Backend Foundation
+- [ ] Initialize `backend/` with Express, install deps
+- [ ] Set up Supabase client, create all 4 tables via SQL
+- [ ] Build `hashChain.service.js` with `append()` and `verify()` methods
+- [ ] Build `eventBus.service.js` with all event listeners
+- [ ] Build auth routes + JWT middleware
+- [ ] Test hash-chain with manual curl requests
+
+### Day 2: Twilio WhatsApp Bot
+- [ ] Build `webhook.routes.js` with conversation state machine
+- [ ] Build `twilio.service.js` for parsing + replying
+- [ ] Build `upload.service.js` for Firebase Storage image uploads
+- [ ] Build `qr.service.js` for QR code generation
+- [ ] Connect Twilio Sandbox webhook URL to Railway
+- [ ] Test full flow: WhatsApp → batch creation → QR reply
+
+### Day 3: Batch & Verification APIs
+- [ ] Build `batch.routes.js` — CRUD operations
+- [ ] Build `verify.routes.js` — chain walk + integrity check
+- [ ] Build `fraud.service.js` — 4-factor scoring engine
+- [ ] Build `regulator.routes.js` — flagged batches + CSV export
+- [ ] Test verify endpoint with intentionally corrupted data
+
+### Day 4: React Frontend — Core Pages
+- [ ] Initialize `frontend/` with Vite + React + Tailwind
+- [ ] Build design system (dark theme, glassmorphism tokens)
+- [ ] Build Landing page + Login page
+- [ ] Build Farmer Dashboard (form + batch list)
+- [ ] Build Factory Dashboard (QR scanner + quality rating)
+- [ ] Set up Axios client with JWT interceptor
+
+### Day 5: React Frontend — Hero Pages
+- [ ] Build **Consumer Timeline** (`/track/:batchId`)
+  - Framer Motion vertical timeline
+  - HashProof component showing chain verification
+  - This is the "30-second demo" page
+- [ ] Build **Regulator Dashboard**
+  - Risk distribution chart (Chart.js)
+  - Batch table with risk badges
+  - CSV export button
+  - Investigation modal
+- [ ] Add i18n (English, Hindi, Punjabi)
+
+### Day 6: Polish & Deploy
+- [ ] Deploy backend to Railway
+- [ ] Deploy frontend to Vercel (free)
+- [ ] Write README with Mermaid architecture diagram + screenshots
+- [ ] Record 2-min demo video
+- [ ] Final end-to-end test: WhatsApp → Factory scan → Consumer verify
+
+---
+
+## Environment Variables (.env)
+
+```
+# Supabase
+SUPABASE_URL=https://xxxxx.supabase.co
+SUPABASE_SERVICE_KEY=eyJhbGci...
+
+# Firebase (for image storage)
+FIREBASE_PROJECT_ID=ayurvedic-prototype
+FIREBASE_STORAGE_BUCKET=ayurvedic-prototype.firebasestorage.app
+FIREBASE_PRIVATE_KEY=...
+FIREBASE_CLIENT_EMAIL=...
+
+# Twilio
+TWILIO_ACCOUNT_SID=ACxxxxx
+TWILIO_AUTH_TOKEN=xxxxx
+TWILIO_WHATSAPP_NUMBER=+14155238886
+
+# JWT
+JWT_SECRET=your-strong-secret-here
+
+# Server
+PORT=3001
+NODE_ENV=production
+```
+
+---
+
+## CV Bullet Points This Project Produces
+
+```
+AyurTrace – Herb Supply Chain Traceability System | GitHub | Live
+
+• Engineered cryptographic hash-chain audit log in PostgreSQL ensuring
+  tamper-proof traceability — any record modification breaks the SHA-256
+  verification chain, enabling instant fraud detection
+
+• Built role-based dashboards (Farmer, Factory, Regulator) with QR code–driven
+  batch tracking from harvest to retail shelf
+
+• Implemented event-driven pipeline: QR scan → Node.js EventEmitter →
+  validation → append-only ledger, processing batch verifications in <200ms
+
+• Integrated Twilio WhatsApp bot enabling zero-app farmer onboarding —
+  herb submission via conversational interface with image capture
+
+Tech: React.js (Vite), Node.js, Express.js, PostgreSQL (Supabase),
+      Twilio, JWT, SHA-256, Chart.js
+```
+
+---
+
+## Open Questions
+
+> [!IMPORTANT]
+> **Supabase vs Local Postgres for development**: Do you want to develop against your Supabase cloud instance directly, or set up a local PostgreSQL for dev and only use Supabase for production? Local is faster for development, but adds a migration step.
+
+> [!NOTE]
+> **Conversation state storage for WhatsApp bot**: The bot needs to remember where each farmer is in the "new → herb → quantity → photo" flow. Two options:
+> 1. **In-memory Map** — simpler, but resets on server restart
+> 2. **Supabase `conversation_state` table** — persistent, survives restarts
+> 
+> Recommend option 2 for production-readiness, but option 1 is fine for portfolio.
+
+> [!NOTE]
+> **Firebase Auth vs custom JWT**: Your prototype used Firebase Auth. The new plan uses custom JWT (bcrypt + jsonwebtoken). This is intentional — custom JWT is more impressive on a CV and you can explain the full auth flow in interviews. Confirming you're okay with this change.

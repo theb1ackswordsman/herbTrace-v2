@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Environment variables (NEVER commit these)
+.env
+.env.local
+.env.*.local
+
+# Firebase service account keys
+*serviceAccountKey*.json
+*firebase*.json
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Build output
+dist/
+dist-ssr/
+build/
+
+# Editor directories
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store

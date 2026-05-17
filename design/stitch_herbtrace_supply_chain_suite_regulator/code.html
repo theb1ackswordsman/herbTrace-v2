@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HerbTrace Regulator Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-container": "#ee9800",
+                    "outline": "#849585",
+                    "surface-dim": "#0c160e",
+                    "inverse-surface": "#dae6d8",
+                    "surface-bright": "#323c32",
+                    "on-primary": "#003919",
+                    "on-tertiary": "#3d2f00",
+                    "on-background": "#dae6d8",
+                    "tertiary-container": "#ffdb79",
+                    "surface-container-low": "#141e16",
+                    "on-tertiary-fixed-variant": "#584400",
+                    "background": "#0c160e",
+                    "surface-variant": "#2d372e",
+                    "primary-fixed": "#60ff99",
+                    "on-tertiary-container": "#795f01",
+                    "on-surface-variant": "#b9cbb9",
+                    "surface-container-lowest": "#071009",
+                    "outline-variant": "#3b4b3d",
+                    "on-secondary-container": "#5b3800",
+                    "error": "#ffb4ab",
+                    "tertiary-fixed-dim": "#e5c364",
+                    "tertiary-fixed": "#ffe08d",
+                    "primary-fixed-dim": "#00e479",
+                    "on-tertiary-fixed": "#241a00",
+                    "secondary-fixed": "#ffddb8",
+                    "on-surface": "#dae6d8",
+                    "secondary-fixed-dim": "#ffb95f",
+                    "primary-container": "#00ff88",
+                    "on-error-container": "#ffdad6",
+                    "inverse-primary": "#006d37",
+                    "on-primary-fixed": "#00210c",
+                    "surface-tint": "#00e479",
+                    "on-error": "#690005",
+                    "on-secondary": "#472a00",
+                    "surface": "#0c160e",
+                    "on-secondary-fixed": "#2a1700",
+                    "on-primary-fixed-variant": "#005228",
+                    "error-container": "#93000a",
+                    "surface-container": "#18221a",
+                    "on-primary-container": "#007139",
+                    "primary": "#f1ffef",
+                    "surface-container-highest": "#2d372e",
+                    "secondary": "#ffb95f",
+                    "tertiary": "#fffaf7",
+                    "on-secondary-fixed-variant": "#653e00",
+                    "inverse-on-surface": "#29332a",
+                    "surface-container-high": "#222c24"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "sm": "16px",
+                    "lg": "40px",
+                    "md": "24px",
+                    "xs": "8px",
+                    "base": "4px",
+                    "margin-mobile": "16px",
+                    "xl": "64px",
+                    "margin-desktop": "48px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Sora"],
+                    "body-sm": ["Inter"],
+                    "display-lg": ["Sora"],
+                    "body-lg": ["Inter"],
+                    "headline-lg-mobile": ["Sora"],
+                    "technical-md": ["JetBrains Mono"],
+                    "headline-lg": ["Sora"],
+                    "technical-sm": ["JetBrains Mono"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "technical-md": ["14px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "technical-sm": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #0c160e; color: #dae6d8; }
+        .glass-card { background: rgba(26, 46, 28, 0.6); backdrop-filter: blur(16px); border: 1px solid rgba(0, 255, 136, 0.1); }
+        .etched-border { border: 1px solid rgba(0, 255, 136, 0.1); }
+        .custom-scroll::-webkit-scrollbar { width: 4px; }
+        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #3b4b3d; border-radius: 2px; }
+        .venation-bg {
+            background-image: radial-gradient(circle at 2px 2px, rgba(0, 255, 136, 0.05) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-gutter py-sm max-w-[1440px] mx-auto bg-surface/60 backdrop-blur-md border-b border-white/10">
+<div class="flex items-center gap-lg">
+<span class="font-headline-lg text-headline-lg text-primary-container font-bold tracking-tighter">HerbTrace</span>
+<nav class="hidden md:flex gap-md items-center">
+<a class="font-body-md text-body-md text-primary-container border-b-2 border-primary-container pb-1" href="#">Dashboard</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors" href="#">Traceability</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors" href="#">Compliance</a>
+</nav>
+</div>
+<div class="flex items-center gap-sm">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm" data-icon="search">search</span>
+<input class="bg-surface-container-lowest border-outline-variant/20 rounded-full pl-10 pr-4 py-1.5 text-technical-sm focus:border-primary-container focus:ring-0 w-64 transition-all" placeholder="Search protocol..." type="text"/>
+</div>
+<button class="bg-primary-container text-on-primary-container px-4 py-2 rounded-lg font-technical-md flex items-center gap-xs hover:opacity-90 transition-all active:scale-95 duration-150">
+<span class="material-symbols-outlined text-sm" data-icon="file_download">file_download</span>
+                CSV Export
+            </button>
+<div class="w-10 h-10 rounded-full border border-primary-container/20 overflow-hidden">
+<img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNXvGCBXQ48RfTif30CkyPbWXUIr_sMeW5tA4TjFvP5mJP0GQIhMvmkOB96z_g8DMTyKkzo1fbCCoq1KUnckqaL3HkHpVnG32_XhIWdvxDUjoBuhe8BW2Hb7gq-20dinSu7_AFlrD4sKEfXoOTAcUHAIAB9ULJLjGNyk6UYRm_hOBBtJaNQcQBv-8ggP-EgM5BC-WQLJOPF8mdgZtRpfMyrPTLniblRw1jjlQNmQZGtSLekxqT2YR6-RcDQFLj4G8IzD1e3GL90cXa"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="hidden lg:flex flex-col h-screen fixed left-0 top-0 pt-xl pb-md w-64 bg-surface-container-low/60 backdrop-blur-xl border-r border-primary/10 shadow-xl z-40">
+<div class="px-6 mb-xl mt-4">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 bg-primary-container/20 rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container" data-icon="shield">shield</span>
+</div>
+<div>
+<p class="font-headline-md text-technical-md text-primary-container font-black leading-none">REGULATOR</p>
+<p class="font-technical-sm text-outline text-[10px] uppercase tracking-widest">Verified Access</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 bg-primary-container/10 text-primary-container border-l-4 border-primary-container px-4 py-3 font-technical-md transition-all translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Overview
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant/30 px-4 py-3 font-technical-md transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+                Batches
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant/30 px-4 py-3 font-technical-md transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="verified">verified</span>
+                Quality
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant/30 px-4 py-3 font-technical-md transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+                Risk Analysis
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant/30 px-4 py-3 font-technical-md transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                Settings
+            </a>
+</nav>
+<div class="px-4 py-4 mt-auto border-t border-outline-variant/10">
+<button class="w-full bg-surface-variant/50 text-on-surface border border-outline-variant/20 rounded-lg py-2 flex items-center justify-center gap-2 font-technical-md hover:bg-surface-variant transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                New Entry
+            </button>
+<div class="mt-4 flex flex-col gap-1">
+<a class="flex items-center gap-3 text-outline hover:text-primary-container px-2 py-1 transition-colors font-technical-sm" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="help">help</span>
+                    Help
+                </a>
+<a class="flex items-center gap-3 text-outline hover:text-primary-container px-2 py-1 transition-colors font-technical-sm" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="logout">logout</span>
+                    Sign Out
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:ml-64 pt-xl min-h-screen venation-bg">
+<div class="max-w-[1440px] mx-auto px-gutter py-lg space-y-lg">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-md">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">Protocol Oversight</h1>
+<p class="text-on-surface-variant max-w-2xl font-body-md">Real-time cryptographic audit of regional herb supply chains. All batches are verified against decentralized standards.</p>
+</div>
+<div class="flex gap-sm">
+<div class="glass-card px-4 py-2 rounded-xl flex items-center gap-3 etched-border">
+<div class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></div>
+<span class="font-technical-sm text-primary-container">LIVE NETWORK STATUS: OPTIMAL</span>
+</div>
+</div>
+</div>
+<!-- Bento Grid Dashboard -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Risk Distribution Doughnut (Span 4) -->
+<div class="md:col-span-4 glass-card p-md rounded-xl flex flex-col h-full etched-border">
+<div class="flex justify-between items-center mb-lg">
+<h3 class="font-headline-md text-technical-md text-on-surface uppercase tracking-wider">Risk Distribution</h3>
+<span class="material-symbols-outlined text-outline" data-icon="info">info</span>
+</div>
+<div class="flex-1 flex flex-col items-center justify-center relative py-6">
+<!-- Custom SVG Doughnut -->
+<svg class="w-48 h-48 -rotate-90">
+<circle cx="96" cy="96" fill="transparent" r="80" stroke="#1A2E1C" stroke-width="20"></circle>
+<circle cx="96" cy="96" fill="transparent" r="80" stroke="#00ff88" stroke-dasharray="502" stroke-dashoffset="150" stroke-width="20"></circle>
+<circle cx="96" cy="96" fill="transparent" r="80" stroke="#ee9800" stroke-dasharray="502" stroke-dashoffset="400" stroke-width="20"></circle>
+<circle cx="96" cy="96" fill="transparent" r="80" stroke="#ffb4ab" stroke-dasharray="502" stroke-dashoffset="480" stroke-width="20"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-headline-lg text-headline-lg text-on-surface">94.2%</span>
+<span class="text-technical-sm text-outline">SECURE</span>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-xs mt-lg">
+<div class="text-center">
+<p class="text-technical-sm text-primary-container font-bold">78</p>
+<p class="text-[10px] text-outline uppercase">Low</p>
+</div>
+<div class="text-center border-x border-outline-variant/20">
+<p class="text-technical-sm text-secondary-container font-bold">12</p>
+<p class="text-[10px] text-outline uppercase">Medium</p>
+</div>
+<div class="text-center">
+<p class="text-technical-sm text-error font-bold">4</p>
+<p class="text-[10px] text-outline uppercase">High</p>
+</div>
+</div>
+</div>
+<!-- Global Origins Map (Span 8) -->
+<div class="md:col-span-8 glass-card p-0 rounded-xl overflow-hidden relative etched-border min-h-[400px]">
+<div class="absolute top-md left-md z-10 space-y-2">
+<h3 class="font-headline-md text-technical-md text-on-surface uppercase tracking-wider bg-surface/80 backdrop-blur-md px-3 py-1 rounded">Batch Origin Matrix</h3>
+<div class="flex gap-2">
+<span class="px-2 py-1 bg-surface-container-highest/80 backdrop-blur-md rounded text-[10px] text-on-surface font-technical-md">ACTIVE NODES: 1,240</span>
+<span class="px-2 py-1 bg-surface-container-highest/80 backdrop-blur-md rounded text-[10px] text-on-surface font-technical-md">LATENCY: 12ms</span>
+</div>
+</div>
+<div class="w-full h-full bg-surface-dim relative">
+<img class="w-full h-full object-cover opacity-50 mix-blend-luminosity" data-alt="A highly detailed dark-themed satellite topographical map view showing a stylized supply chain network. Glowing bioluminescent green data lines and connection points span across a dark, forest-green and black terrain. The visual style is technical, precise, and high-end, utilizing the brand's primary green accents to highlight key trade hubs and verified shipping lanes against a deep, immersive dark landscape." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnj-qZFjHA0KovMTWWs4UDt69q8vJKPeE3favg0Otng27bppYIdEYWw9Owae8XLQDKazjeFik2LVMNTKO7UY_0YWtM4GPbx8kZviwmB-v0NwcmJSMJCU79-vjsArjdkRw07bqS7UY4IUH08N6zwkku3aGjssjXsYG2T__hECe2TAragQOQsQ8d0xn9sAUBRH1dkV3fWo4UIDshH5GJ7wUCk7JETgxutzvNkLKZaQddBNrzAPQl0b4cslWbr-vF0EG99oS2dMbDLqih"/>
+<!-- Simulated Pings -->
+<div class="absolute top-1/3 left-1/4 w-3 h-3 bg-primary-container rounded-full shadow-[0_0_15px_rgba(0,255,136,0.8)]"></div>
+<div class="absolute top-1/2 left-1/2 w-2 h-2 bg-secondary-container rounded-full shadow-[0_0_10px_rgba(238,152,0,0.8)]"></div>
+<div class="absolute bottom-1/4 right-1/3 w-3 h-3 bg-primary-container rounded-full shadow-[0_0_15px_rgba(0,255,136,0.8)]"></div>
+</div>
+</div>
+<!-- Active Batches Table (Span 12) -->
+<div class="md:col-span-12 glass-card rounded-xl overflow-hidden etched-border">
+<div class="p-md border-b border-outline-variant/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-md">
+<div class="flex items-center gap-4">
+<h3 class="font-headline-md text-technical-md text-on-surface uppercase tracking-wider">Surveillance Ledger</h3>
+<div class="flex bg-surface-container-lowest p-1 rounded-lg border border-outline-variant/20">
+<button class="px-3 py-1 bg-primary-container/10 text-primary-container text-technical-sm rounded-md">All Batches</button>
+<button class="px-3 py-1 text-outline hover:text-on-surface text-technical-sm transition-colors">Flagged</button>
+<button class="px-3 py-1 text-outline hover:text-on-surface text-technical-sm transition-colors">Verified</button>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="p-2 text-outline hover:text-primary-container transition-colors"><span class="material-symbols-outlined" data-icon="filter_list">filter_list</span></button>
+<button class="p-2 text-outline hover:text-primary-container transition-colors"><span class="material-symbols-outlined" data-icon="refresh">refresh</span></button>
+</div>
+</div>
+<div class="overflow-x-auto custom-scroll">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="px-md py-4 text-technical-sm text-outline font-medium uppercase tracking-widest">Protocol ID</th>
+<th class="px-md py-4 text-technical-sm text-outline font-medium uppercase tracking-widest">Commodity</th>
+<th class="px-md py-4 text-technical-sm text-outline font-medium uppercase tracking-widest">Origin</th>
+<th class="px-md py-4 text-technical-sm text-outline font-medium uppercase tracking-widest">Timestamp</th>
+<th class="px-md py-4 text-technical-sm text-outline font-medium uppercase tracking-widest">Compliance Risk</th>
+<th class="px-md py-4 text-technical-sm text-outline font-medium uppercase tracking-widest text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<tr class="hover:bg-surface-variant/20 transition-colors">
+<td class="px-md py-4 font-technical-sm text-primary-container">HT-8829-QX</td>
+<td class="px-md py-4 font-body-md text-on-surface">Organic Ashwagandha</td>
+<td class="px-md py-4 font-body-sm text-on-surface-variant">Uttarakhand, India</td>
+<td class="px-md py-4 font-technical-sm text-outline">2024-05-21 14:22 UTC</td>
+<td class="px-md py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-technical-md bg-primary-container/10 text-primary-container border border-primary-container/20">LOW</span>
+</td>
+<td class="px-md py-4 text-right">
+<button class="text-primary-container hover:underline font-technical-sm">Inspect</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-variant/20 transition-colors">
+<td class="px-md py-4 font-technical-sm text-primary-container">HT-9104-LZ</td>
+<td class="px-md py-4 font-body-md text-on-surface">Echinacea Root</td>
+<td class="px-md py-4 font-body-sm text-on-surface-variant">Oregon, USA</td>
+<td class="px-md py-4 font-technical-sm text-outline">2024-05-21 13:05 UTC</td>
+<td class="px-md py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-technical-md bg-secondary-container/10 text-secondary-container border border-secondary-container/20">MEDIUM</span>
+</td>
+<td class="px-md py-4 text-right">
+<button class="text-primary-container hover:underline font-technical-sm">Inspect</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-variant/20 transition-colors">
+<td class="px-md py-4 font-technical-sm text-primary-container">HT-0012-ERR</td>
+<td class="px-md py-4 font-body-md text-on-surface">Wild Panax Ginseng</td>
+<td class="px-md py-4 font-body-sm text-on-surface-variant">Jilin, China</td>
+<td class="px-md py-4 font-technical-sm text-outline">2024-05-21 12:44 UTC</td>
+<td class="px-md py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-technical-md bg-error/10 text-error border border-error/20">HIGH RISK</span>
+</td>
+<td class="px-md py-4 text-right">
+<button class="text-error hover:underline font-technical-sm">Freeze</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-variant/20 transition-colors">
+<td class="px-md py-4 font-technical-sm text-primary-container">HT-7731-WF</td>
+<td class="px-md py-4 font-body-md text-on-surface">Lemon Balm Extract</td>
+<td class="px-md py-4 font-body-sm text-on-surface-variant">Provence, France</td>
+<td class="px-md py-4 font-technical-sm text-outline">2024-05-21 10:15 UTC</td>
+<td class="px-md py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-technical-md bg-primary-container/10 text-primary-container border border-primary-container/20">LOW</span>
+</td>
+<td class="px-md py-4 text-right">
+<button class="text-primary-container hover:underline font-technical-sm">Inspect</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-md flex justify-between items-center bg-surface-container-lowest/50">
+<span class="text-technical-sm text-outline">Showing 4 of 1,240 verified entries</span>
+<div class="flex gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/20 text-outline hover:text-primary-container hover:border-primary-container transition-all"><span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span></button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-primary-container text-primary-container font-technical-sm">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/20 text-outline hover:text-primary-container hover:border-primary-container transition-all">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/20 text-outline hover:text-primary-container hover:border-primary-container transition-all">3</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/20 text-outline hover:text-primary-container hover:border-primary-container transition-all"><span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span></button>
+</div>
+</div>
+</div>
+<!-- Recent Alerts (Span 4) -->
+<div class="md:col-span-4 glass-card p-md rounded-xl etched-border">
+<h3 class="font-headline-md text-technical-md text-on-surface uppercase tracking-wider mb-md">System Alerts</h3>
+<div class="space-y-sm">
+<div class="p-sm bg-surface-container-high rounded-lg border-l-4 border-error">
+<p class="font-technical-sm text-error mb-1">UNAUTHORIZED ACCESS ATTEMPT</p>
+<p class="text-body-sm text-on-surface-variant">Cryptographic signature mismatch on Batch #HT-0012-ERR. Source IP: 185.22.1.41</p>
+</div>
+<div class="p-sm bg-surface-container-high rounded-lg border-l-4 border-secondary-container">
+<p class="font-technical-sm text-secondary-container mb-1">CERTIFICATE EXPIRING</p>
+<p class="text-body-sm text-on-surface-variant">Global GAP certification for 'Uttarakhand Cooperatives' expires in 12 days.</p>
+</div>
+</div>
+</div>
+<!-- Cryptographic Verification Logs (Span 8) -->
+<div class="md:col-span-8 glass-card p-md rounded-xl etched-border bg-surface-container-lowest/80">
+<div class="flex justify-between items-center mb-md">
+<h3 class="font-headline-md text-technical-md text-on-surface uppercase tracking-wider">Blockchain Hash Log</h3>
+<span class="font-technical-sm text-outline">NODE ID: #HT-VERIFIER-09</span>
+</div>
+<div class="space-y-2 font-technical-sm text-primary-container/80">
+<div class="flex justify-between hover:bg-primary-container/5 p-1 rounded transition-colors group">
+<span>0x88f2...ae91</span>
+<span class="text-outline group-hover:text-primary-container">VERIFIED: BLOCK #22,901,444</span>
+</div>
+<div class="flex justify-between hover:bg-primary-container/5 p-1 rounded transition-colors group">
+<span>0x41e1...bb20</span>
+<span class="text-outline group-hover:text-primary-container">VERIFIED: BLOCK #22,901,445</span>
+</div>
+<div class="flex justify-between hover:bg-primary-container/5 p-1 rounded transition-colors group">
+<span>0xdd92...cc31</span>
+<span class="text-outline group-hover:text-primary-container">VERIFIED: BLOCK #22,901,446</span>
+</div>
+<div class="flex justify-between hover:bg-primary-container/5 p-1 rounded transition-colors group">
+<span>0x12a9...ff09</span>
+<span class="text-outline group-hover:text-primary-container">VERIFIED: BLOCK #22,901,447</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="lg:ml-64 w-full py-xl px-gutter flex flex-col md:flex-row justify-between items-center gap-md bg-surface-container-lowest border-t border-outline-variant/20 mt-auto">
+<div class="flex flex-col gap-xs items-center md:items-start">
+<span class="font-headline-md text-headline-md text-on-surface">HerbTrace Protocol</span>
+<p class="font-body-sm text-body-sm text-outline">© 2024 HerbTrace Protocol. Cryptographically Secured.</p>
+</div>
+<div class="flex gap-lg">
+<div class="flex flex-col gap-1">
+<a class="font-technical-sm text-technical-sm text-outline hover:text-primary-container transition-colors" href="#">Privacy Policy</a>
+<a class="font-technical-sm text-technical-sm text-outline hover:text-primary-container transition-colors" href="#">Terms of Service</a>
+</div>
+<div class="flex flex-col gap-1">
+<a class="font-technical-sm text-technical-sm text-outline hover:text-primary-container transition-colors" href="#">API Documentation</a>
+<a class="font-technical-sm text-technical-sm text-outline hover:text-primary-container transition-colors" href="#">Node Status</a>
+</div>
+</div>
+</footer>
+</body></html>

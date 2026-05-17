@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-brand-dark text-on-surface font-sans antialiased min-h-screen selection:bg-brand-green selection:text-brand-dark;
+  }
+}
+
+@layer components {
+  /* Glassmorphism Panel */
+  .glass-panel {
+    @apply bg-brand-surface/60 backdrop-blur-glass border border-brand-green/10 rounded-xl shadow-xl;
+  }
+
+  /* Typography */
+  .text-display {
+    @apply font-display font-semibold tracking-tight;
+  }
+
+  /* Chip/Badge */
+  .chip {
+    @apply font-mono text-xs px-2 py-1 rounded-full border;
+  }
+  
+  .chip-verified {
+    @apply bg-brand-green/10 text-brand-green border-brand-green/20;
+  }
+  
+  .chip-pending {
+    @apply bg-brand-amber/10 text-brand-amber border-brand-amber/20;
+  }
+
+  .chip-danger {
+    @apply bg-error/10 text-error border-error/20;
+  }
+}
