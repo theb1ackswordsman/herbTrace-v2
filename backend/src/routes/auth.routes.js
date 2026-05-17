@@ -19,19 +19,29 @@ router.post('/register', validate(registerSchema), async (req, res) => {
   }
 
   try {
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    let hashedPassword = null;
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      hashedPassword = await bcrypt.hash(password, salt);
+    }
 
     const { data, error } = await supabase
       .from('users')
-      .insert([{ name, email, password: hashedPassword, role, phone }])
+      .insert([{ 
+        name, 
+        email: email || null, 
+        password: hashedPassword, 
+        role, 
+        phone: phone || null 
+      }])
       .select('id, name, email, role')
       .single();
 
     if (error) {
       if (error.code === '23505') { // Unique violation
-        return res.status(400).json({ error: 'Email already exists' });
+        return res.status(400).json({ error: 'Email or phone number already exists' });
       }
+      console.error('Supabase DB Error during registration:', error);
       throw error;
     }
 
