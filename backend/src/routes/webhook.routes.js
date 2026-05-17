@@ -78,8 +78,13 @@ router.post('/', async (req, res) => {
 
         case 'PHOTO':
           if (NumMedia !== '0' && MediaUrl0) {
-            // Fetch image from Twilio using native fetch API
-            const response = await fetch(MediaUrl0);
+            // Fetch image from Twilio using native fetch API with Basic Auth
+            const authHeader = 'Basic ' + Buffer.from(`${process.env.TWILIO_ACCOUNT_SID}:${process.env.TWILIO_AUTH_TOKEN}`).toString('base64');
+            const response = await fetch(MediaUrl0, {
+              headers: { 'Authorization': authHeader }
+            });
+            if (!response.ok) throw new Error(`Twilio media fetch failed: ${response.status}`);
+            
             const arrayBuffer = await response.arrayBuffer();
             const buffer = Buffer.from(arrayBuffer);
             
