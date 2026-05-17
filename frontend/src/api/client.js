@@ -1,7 +1,12 @@
 import axios from 'axios';
 
+let base = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+if (import.meta.env.VITE_API_URL && !base.endsWith('/api')) {
+  base = base.replace(/\/$/, '') + '/api';
+}
+
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3001/api',
+  baseURL: base,
 });
 
 // Request Interceptor: Attach JWT token if it exists
