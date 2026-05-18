@@ -265,7 +265,7 @@ export default function RegulatorDashboard() {
                       <td className="p-4 font-mono text-sm text-on-surface/80">{farmer.phone}</td>
                       <td className="p-4">
                         <span className={`px-2 py-1 rounded text-xs font-semibold ${farmer.reputation >= 4.0 ? 'bg-brand-green/20 text-brand-green' : farmer.reputation >= 3.0 ? 'bg-brand-amber/20 text-brand-amber' : 'bg-error/20 text-error'}`}>
-                          {farmer.reputation.toFixed(2)} / 5.00
+                          {(farmer.reputation ?? 5.00).toFixed(2)} / 5.00
                         </span>
                       </td>
                       <td className="p-4 text-xs text-on-surface/50">

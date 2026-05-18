@@ -16,7 +16,7 @@ async function generateQRDataURI(text) {
 }
 
 /**
- * Generates a QR Code as a Buffer (useful for uploading to Firebase/sending via WhatsApp directly)
+ * Generates a QR Code as a Buffer (useful for uploading to Cloudinary/sending via WhatsApp directly)
  */
 async function generateQRBuffer(text) {
   try {

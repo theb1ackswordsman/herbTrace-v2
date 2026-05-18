@@ -7,18 +7,34 @@ import FarmerDashboard from './pages/FarmerDashboard';
 import FactoryDashboard from './pages/FactoryDashboard';
 import ConsumerTimeline from './pages/ConsumerTimeline';
 import RegulatorDashboard from './pages/RegulatorDashboard';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
     <Router>
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/farmer" element={<FarmerDashboard />} />
-        <Route path="/factory" element={<FactoryDashboard />} />
         <Route path="/track/:batchId" element={<ConsumerTimeline />} />
-        <Route path="/regulator" element={<RegulatorDashboard />} />
+
+        {/* Protected Routes — Role Enforced */}
+        <Route path="/farmer" element={
+          <ProtectedRoute requiredRole="farmer">
+            <FarmerDashboard />
+          </ProtectedRoute>
+        } />
+        <Route path="/factory" element={
+          <ProtectedRoute requiredRole="factory">
+            <FactoryDashboard />
+          </ProtectedRoute>
+        } />
+        <Route path="/regulator" element={
+          <ProtectedRoute requiredRole="regulator">
+            <RegulatorDashboard />
+          </ProtectedRoute>
+        } />
       </Routes>
     </Router>
   );

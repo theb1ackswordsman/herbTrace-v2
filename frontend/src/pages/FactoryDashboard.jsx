@@ -52,7 +52,7 @@ export default function FactoryDashboard() {
     try {
       await apiClient.post(`/batches/${scanResult}/rate`, {
         quality,
-        factory_rating: rating
+        factory_rating: parseInt(rating, 10)
       });
       setMessage('Batch quality rated and hash-chain updated.');
       setBatch(prev => ({ ...prev, status: 'rated' }));

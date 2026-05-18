@@ -37,9 +37,10 @@ CREATE TABLE audit_log (
                     'FRAUD_FLAGGED','BATCH_VERIFIED'
                   )),
   actor_id      UUID REFERENCES users(id),
-  event_data    JSONB NOT NULL,       -- full payload snapshot
+  event_data    JSONB NOT NULL,       -- full payload snapshot (for querying)
+  event_data_raw TEXT,                -- deterministic JSON string (for hash verification)
   prev_hash     TEXT NOT NULL,        -- hash of previous record (or 'GENESIS')
-  current_hash  TEXT NOT NULL,        -- SHA-256(prev_hash + event_data_json)
+  current_hash  TEXT NOT NULL,        -- SHA-256(prev_hash + event_data_raw)
   created_at    TIMESTAMPTZ DEFAULT NOW()
 );
 
