@@ -20,10 +20,16 @@ export default function ConsumerTimeline() {
         const batchRes = await apiClient.get(`/batches/${batchId}`);
         setBatch(batchRes.data);
 
-        // Fetch cryptographic proof
-        const verifyRes = await apiClient.get(`/verify/${batchId}`);
-        setVerification(verifyRes.data);
-        
+        // Fetch cryptographic proof (independent — don't let this kill the page)
+        try {
+          const verifyRes = await apiClient.get(`/verify/${batchId}`);
+          setVerification(verifyRes.data);
+        } catch (verifyErr) {
+          // Verification may not exist yet if the hash chain hasn't been written
+          console.warn('Verification not available yet:', verifyErr.response?.data?.error);
+          setVerification(null);
+        }
+
       } catch (err) {
         setError(err.response?.data?.error || 'Batch not found.');
       } finally {
